@@ -2,8 +2,11 @@
 
 Kurallar `beceri.kurallar` içinde; sınırlar ve kapatılan kurallar `beceri.ayar` ile gelir. Model ya da ağ
 çağrısı yoktur; dosyalar yalnız okunur. Sır görünümlü değerin kendisi asla rapora yazılmaz, yalnız yeri.
+
+Profil önceliği: komut satırı (`--profil`) > skill'in `metadata.profil` değeri > ayardaki `profil` > esnek.
 """
 import fnmatch
+import itertools
 import os
 import posixpath
 import re
@@ -12,7 +15,7 @@ from pathlib import Path
 
 from beceri import onbilgi
 from beceri.ayar import Ayar
-from beceri.kurallar import HATA
+from beceri.kurallar import HATA, KURAL, ORTAK, PROFILLER, SIKI
 
 SKILL_DOSYASI = "SKILL.md"
 AD_DESENI = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
@@ -49,6 +52,29 @@ SIR_ATAMA = re.compile(
 YER_TUTUCU_SIR = re.compile(r"(?i)[<>{}$]|x{4,}|\.\.\.|your|example|ornek|örnek|changeme|placeholder|dummy|fake")
 METIN_AZAMI = 1024 * 1024
 
+# siki profil: sabit bölüm sırası (# Başlık ardından bu ## bölümleri) ve adım satırı sözdizimi.
+SIKI_BOLUMLER = ("Amaç", "Ne zaman kullan / kullanma", "Adımlar", "Değişmezler ve yasaklar",
+                 "Çıktı / rapor biçimi", "Referanslar")
+_KATLA = str.maketrans("İIıŞşÇçĞğÖöÜüÂâÎîÛû", "iiissccggoouuaaiiuu")
+ADIM_SUTUNLARI = ("nesne", "eylem", "yetki", "kanit")
+ADIM_SIRA_SUTUNU = ("#", "adim", "no", "sira")
+BOS_ALAN = frozenset({"", "-", "—", "–", "?", "...", "…"})
+BELIRSIZ = frozenset({"bilinmiyor", "belirsiz", "tbd", "todo"})
+NUMARALI = re.compile(r"^ {0,3}\d+[.)]\s+")
+MADDE = re.compile(r"^ {0,1}[-*+]\s+")
+ADIM_LISTE = re.compile(
+    r"^\*\*(?P<nesne>[^*]*)\*\*\s*(?:—|–|-)\s*(?P<eylem>[^·;]*?)\s*[·;]\s*yetki:\s*(?P<yetki>[^·;]*?)\s*"
+    r"[·;]\s*kanit:\s*(?P<kanit>.*?)\s*$")
+ADIM_PARCALARI = (("**nesne**", r"^\*\*[^*]+\*\*"), ("eylem", r"^\*\*[^*]+\*\*\s*[—–-]\s*[^\s·;]"),
+                  ("yetki:", r"[·;]\s*yetki:"), ("kanıt:", r"[·;]\s*kanit:"))
+_AYLAR = ("ocak|subat|mart|nisan|mayis|haziran|temmuz|agustos|eylul|ekim|kasim|aralik|january|february|march"
+          "|april|may|june|july|august|september|october|november|december")
+OLCUM = re.compile(
+    r"(?<![\w.])(?:\d{1,2}\s+)?(?:" + _AYLAR + r")\s+(?:19|20)\d\d(?!\d)"
+    r"|(?<![\d.])\d{1,2}[./]\d{1,2}[./](?:19|20)\d\d(?!\d)"
+    r"|%\s?\d+(?:[.,]\d+)?|(?<![\w.])\d+(?:[.,]\d+)?\s?%"
+    r"|(?<![\w.])\d+(?:[.,]\d+)?\s?(?:ms|sn|saniye|dk|dakika|saat|kb|mb|gb|token|x|kat)(?![\w])")
+
 
 @dataclass
 class Bulgu:
@@ -72,9 +98,10 @@ class Sonuc:
     uyarilar: list = field(default_factory=list)
     muaflar: list = field(default_factory=list)
     olcum: dict = field(default_factory=dict)
+    profil: str = "esnek"
 
     def sozluk(self):
-        return {"yol": self.yol, "ad": self.ad,
+        return {"yol": self.yol, "ad": self.ad, "profil": self.profil,
                 "hatalar": [asdict(b) for b in self.hatalar],
                 "uyarilar": [asdict(b) for b in self.uyarilar],
                 "muaflar": [asdict(b) for b in self.muaflar],
@@ -90,7 +117,7 @@ class _Kayit:
         self.ayar = ayar
 
     def __call__(self, kural, mesaj, dosya=None, satir=None):
-        if not self.ayar.acik(kural):
+        if not self.ayar.acik(kural) or KURAL[kural].profil not in (ORTAK, self.sonuc.profil):
             return
         b = Bulgu(kural, mesaj, dosya, satir)
         gerekce = self.ayar.muaf.get((self.giris_adi, kural))
@@ -220,6 +247,186 @@ def _model_deseni(ayar):
     return re.compile(r"(?i)(?<![\w-])(?:" + "|".join(kaliplar) + r")(?![\w-])")
 
 
+def katla(metin):
+    """Karşılaştırma için küçük harf ve Türkçe harfleri ASCII'ye katlar (uzunluk korunur)."""
+    return metin.translate(_KATLA).lower()
+
+
+def _baslik_anahtari(metin):
+    metin = katla(metin.strip().strip("#").strip().strip("*").strip())
+    return re.sub(r"\s*/\s*", " / ", re.sub(r"\s+", " ", metin))
+
+
+SIKI_ANAHTARLAR = tuple(_baslik_anahtari(b) for b in SIKI_BOLUMLER)
+
+
+def bolumler(govde, govde_bas):
+    """Kod blokları dışındaki # ve ## başlıkları: [(seviye, başlık, satır, [(satır, metin)])]."""
+    sonuc = []
+    for no, satir in enumerate(kod_bloklarini_at(govde).split("\n"), govde_bas):
+        m = re.match(r"^(#{1,2})\s+(.*?)\s*#*\s*$", satir)
+        if m:
+            sonuc.append((len(m.group(1)), m.group(2), no, []))
+        elif sonuc:
+            sonuc[-1][3].append((no, satir))
+    return sonuc
+
+
+def _hucreler(satir):
+    s = satir.strip().removeprefix("|")
+    if s.endswith("|") and not s.endswith("\\|"):
+        s = s[:-1]
+    return [h.strip() for h in re.split(r"(?<!\\)\|", s)]
+
+
+def _alan_degeri(metin):
+    return katla(re.sub(r"[`*_]", "", metin)).strip().rstrip(".").strip()
+
+
+def _adim_alanlari(alanlar):
+    """{nesne, eylem, yetki, kanit} -> sorun listesi (boşsa geçerli)."""
+    sorun = []
+    for ad in ADIM_SUTUNLARI:
+        d = _alan_degeri(alanlar.get(ad) or "")
+        if d in BOS_ALAN:
+            sorun.append(f"{'kanıt' if ad == 'kanit' else ad} boş")
+        elif ad == "yetki" and d in BELIRSIZ:
+            sorun.append("yetki belirsiz (okuma adımında 'yok', aksi halde onaylayan)")
+        elif ad == "kanit" and (d in BELIRSIZ or d == "yok"):
+            sorun.append("kanıt 'yok' ya da belirsiz olamaz")
+    return sorun
+
+
+def adim_sorunlari(icerik):
+    """## Adımlar içeriği -> (adım sayısı, [(satır, mesaj)]).
+
+    Adım ya `| [#] | Nesne | Eylem | Yetki | Kanıt |` başlıklı bir tablonun satırıdır ya da
+    `1. **nesne** — eylem · yetki: X · kanıt: Y` biçiminde numaralı bir madde. Düz paragraf ve girintili alt
+    madde serbesttir; girintisiz `-` maddesi adım sayılır ve reddedilir.
+    """
+    sayi, sorunlar, i = 0, [], 0
+    while i < len(icerik):
+        no, satir = icerik[i]
+        if satir.strip().startswith("|"):
+            blok = []
+            while i < len(icerik) and icerik[i][1].strip().startswith("|"):
+                blok.append(icerik[i])
+                i += 1
+            baslik = [_alan_degeri(h) for h in _hucreler(blok[0][1])]
+            sira = 1 if baslik and baslik[0] in ADIM_SIRA_SUTUNU else 0
+            ayirici = len(blok) > 1 and all(re.fullmatch(r":?-{3,}:?", h) for h in _hucreler(blok[1][1]))
+            if tuple(baslik[sira:]) != ADIM_SUTUNLARI or not ayirici:
+                sorunlar.append((no, ("adım tablosu başlığı '| # | Nesne | Eylem | Yetki | Kanıt |' olmalı "
+                                      "(sıra sütunu isteğe bağlı)")))
+                continue
+            for rno, rsatir in blok[2:]:
+                h = _hucreler(rsatir)
+                sayi += 1
+                if len(h) != len(baslik):
+                    sorunlar.append((rno, f"adım satırında {len(h)} hücre var, {len(baslik)} bekleniyor"))
+                    continue
+                eksik = _adim_alanlari(dict(zip(ADIM_SUTUNLARI, h[sira:], strict=True)))
+                if eksik:
+                    sorunlar.append((rno, "adım satırı: " + ", ".join(eksik)))
+            continue
+        m = NUMARALI.match(satir)
+        if m:
+            sayi += 1
+            madde = katla(satir[m.end():].strip())
+            lm = ADIM_LISTE.match(madde)
+            if lm is None:
+                eksik = [ad for ad, desen in ADIM_PARCALARI if not re.search(desen, madde)]
+                sorunlar.append((no, "adım maddesi '1. **nesne** — eylem · yetki: … · kanıt: …' biçiminde değil"
+                                 + (f"; eksik: {', '.join(eksik)}" if eksik else "")))
+            else:
+                eksik = _adim_alanlari(lm.groupdict())
+                if eksik:
+                    sorunlar.append((no, "adım maddesi: " + ", ".join(eksik)))
+        elif MADDE.match(satir):
+            sayi += 1
+            sorunlar.append((no, "adım numaralı madde ya da tablo satırı olmalı (girintisiz '-' maddesi)"))
+        i += 1
+    return sayi, sorunlar
+
+
+def _siki_denetle(ekle, govde, govde_bas, gercek, ayar):
+    """S01-S03, S05-S07 (S04 gövde boyutuyla birlikte denetlenir)."""
+    bas = bolumler(govde, govde_bas)
+    h1 = [b for b in bas if b[0] == 1]
+    if not h1:
+        ekle("S01", "başlık (# ...) yok", SKILL_DOSYASI)
+    else:
+        if len(h1) > 1:
+            ekle("S01", f"birden çok # başlık ({len(h1)})", SKILL_DOSYASI, h1[1][2])
+        if bas[0][0] != 1:
+            ekle("S01", "# başlık ilk başlık olmalı", SKILL_DOSYASI, bas[0][2])
+    gorulen, fazla = {}, []
+    for _, baslik, no, icerik in (b for b in bas if b[0] == 2):
+        anahtar = _baslik_anahtari(baslik)
+        if anahtar not in SIKI_ANAHTARLAR:
+            fazla.append((no, f"tanımsız bölüm '## {baslik}'; alt başlık için ### kullanın"))
+        elif anahtar in gorulen:
+            fazla.append((no, f"bölüm iki kez: '## {baslik}'"))
+        else:
+            gorulen[anahtar] = (no, icerik)
+    eksik = [b for b, a in zip(SIKI_BOLUMLER, SIKI_ANAHTARLAR, strict=True) if a not in gorulen]
+    if eksik:
+        ekle("S01", "eksik bölüm: " + ", ".join(f"'## {b}'" for b in eksik), SKILL_DOSYASI)
+    for no, mesaj in fazla:
+        ekle("S02", mesaj, SKILL_DOSYASI, no)
+    sirali = sorted(gorulen, key=lambda a: gorulen[a][0])
+    for onceki, sonraki in itertools.pairwise(sirali):
+        if SIKI_ANAHTARLAR.index(onceki) > SIKI_ANAHTARLAR.index(sonraki):
+            ad = SIKI_BOLUMLER[SIKI_ANAHTARLAR.index(sonraki)]
+            once = SIKI_BOLUMLER[SIKI_ANAHTARLAR.index(onceki)]
+            ekle("S02", f"bölüm sırası: '## {ad}', '## {once}' bölümünden önce gelmeli", SKILL_DOSYASI,
+                 gorulen[sonraki][0])
+            break
+
+    amac = gorulen.get(SIKI_ANAHTARLAR[0])
+    if amac is not None:
+        dolu = [s for s in amac[1] if s[1].strip()]
+        azami = ayar.sinirlar["amac_azami_satir"]
+        if not dolu:
+            ekle("S03", "'## Amaç' boş", SKILL_DOSYASI, amac[0])
+        elif len(dolu) > azami:
+            ekle("S03", f"'## Amaç' {len(dolu)} satır (en çok {azami})", SKILL_DOSYASI, amac[0])
+
+    adimlar = gorulen.get(SIKI_ANAHTARLAR[2])
+    if adimlar is not None:
+        sayi, sorunlar = adim_sorunlari(adimlar[1])
+        for no, mesaj in sorunlar:
+            ekle("S05", mesaj, SKILL_DOSYASI, no)
+        if sayi == 0:
+            ekle("S05", "'## Adımlar'da adım yok (adım tablosu ya da numaralı madde)", SKILL_DOSYASI, adimlar[0])
+
+    duz = re.sub(r"`[^`\n]*`", lambda m: " " * len(m.group(0)), kod_bloklarini_at(govde))
+    olcumler = [(no, m.group(0).strip()) for no, satir in enumerate(duz.split("\n"), govde_bas)
+                for m in OLCUM.finditer(katla(satir))]
+    if olcumler:
+        ekle("S06", f"gövdede {len(olcumler)} ölçüm ya da tarih ifadesi (ilki '{olcumler[0][1]}'); "
+                    "tarihçe ve ölçümü references/ altına taşıyın", SKILL_DOSYASI, olcumler[0][0])
+
+    refdir = gercek / "references"
+    if refdir.is_dir():
+        for rel, _ in _agac(refdir, ayar):
+            if "/" in rel:
+                ekle("S07", f"iç içe referans: references/{rel}; references/ altına tek seviye taşıyın",
+                     "references/" + rel)
+
+
+def profil_sec(ayar, meta, ekle=None):
+    """Etkin profil: --profil > metadata.profil > ayar.profil. Bilinmeyen metadata değeri B26."""
+    profil = ayar.profil
+    deger = meta.get("profil") if isinstance(meta, dict) else None
+    if isinstance(deger, str):
+        if deger.strip().lower() in PROFILLER:
+            profil = deger.strip().lower()
+        elif ekle is not None:
+            ekle("B26", f"metadata.profil bilinmeyen: '{deger}' ({' ya da '.join(PROFILLER)})", SKILL_DOSYASI)
+    return ayar.profil_zorla or profil
+
+
 # ------------------------------------------------------------------ tek skill
 def skill_denetle(klasor, ayar=None, giris_adi=None, etiket=None):
     """Tek skill klasörünü denetler. giris_adi: taramada görünen ad (bağlantı adı olabilir)."""
@@ -227,7 +434,7 @@ def skill_denetle(klasor, ayar=None, giris_adi=None, etiket=None):
     klasor = Path(klasor)
     gercek = Path(os.path.realpath(klasor))
     giris_adi = giris_adi or klasor.resolve().name
-    sonuc = Sonuc(yol=etiket or str(klasor))
+    sonuc = Sonuc(yol=etiket or str(klasor), profil=ayar.profil_zorla or ayar.profil)
     ekle = _Kayit(sonuc, giris_adi, ayar)
     sin = ayar.sinirlar
 
@@ -246,6 +453,8 @@ def skill_denetle(klasor, ayar=None, giris_adi=None, etiket=None):
         except ValueError as e:
             ekle("B02", f"ön bilgi ayrıştırılamadı: {e}", SKILL_DOSYASI)
             fm = {}
+    sonuc.profil = profil_sec(ayar, fm.get("metadata"), ekle)
+    siki = sonuc.profil == SIKI
 
     govde_satirlari = govde.split("\n")
     if govde_satirlari and govde_satirlari[0] == "":
@@ -324,14 +533,15 @@ def skill_denetle(klasor, ayar=None, giris_adi=None, etiket=None):
                 if not isinstance(mv, str):
                     ekle("B09", f"metadata.{mk} metin değil (tırnağa alın)", SKILL_DOSYASI)
 
-    # B10 / B19: gövde boyutu
+    # B10 / B19 / S04: gövde boyutu (siki profilde öneri sınırı serttir)
     n = sonuc.olcum["govde_satir"]
     if n > sin["govde_azami_satir"]:
         ekle("B10", f"gövde {n} satır (>{sin['govde_azami_satir']}); ayrıntıyı references/ altına taşıyın",
              SKILL_DOSYASI)
     elif n > sin["govde_uyari_satir"] or govde_bayt > sin["govde_uyari_kb"] * 1024:
-        ekle("B19", f"gövde {n} satır / {govde_bayt / 1024:.1f} KB "
-                    f"(öneri: en çok {sin['govde_uyari_satir']} satır, {sin['govde_uyari_kb']} KB)", SKILL_DOSYASI)
+        ekle("S04" if siki else "B19", f"gövde {n} satır / {govde_bayt / 1024:.1f} KB "
+             f"({'sınır' if siki else 'öneri'}: en çok {sin['govde_uyari_satir']} satır, {sin['govde_uyari_kb']} KB)",
+             SKILL_DOSYASI)
 
     # B11: anılan yollar
     for y in goreli_yollar(metin):
@@ -403,6 +613,10 @@ def skill_denetle(klasor, ayar=None, giris_adi=None, etiket=None):
         if YER_TUTUCU.search(satir):
             ekle("B25", "doldurulmamış yer tutucu (DOLDUR)", SKILL_DOSYASI, no)
             break
+
+    # S01-S03, S05-S07: siki profil
+    if siki:
+        _siki_denetle(ekle, govde, govde_bas, gercek, ayar)
     return sonuc
 
 
@@ -501,7 +715,7 @@ def tara(yollar, ayar=None):
         gorulen[anahtar] = (s, giris)
         sonuclar.append(s)
     for p in eksikler:
-        s = Sonuc(yol=etiket(p))
+        s = Sonuc(yol=etiket(p), profil=ayar.profil_zorla or ayar.profil)
         _Kayit(s, p.name, ayar)("B01", "SKILL.md yok")
         sonuclar.append(s)
     # B22: aynı name, farklı klasör

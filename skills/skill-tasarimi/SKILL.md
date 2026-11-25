@@ -41,6 +41,14 @@ eşitlemeden "kuruldu" ya da "güncellendi" deme.
 aynı şablondan klasör açar. Bölümler zorunlu bir form değil: karar değiştirmeyen bölümü çıkar. Kısa
 bir skill için ayrı referans dosyası şart değil.
 
+## Profili seç
+
+Varsayılan `esnek` profil yukarıdaki serbest yapıdır. `siki` profil sabit bölüm sırası ister ve her adımda
+nesne, eylem, yetki ve kanıtı yazdırır; çok yazarlı skill kümelerinde ya da onay gerektiren, geri alınamaz
+eylem içeren işlerde seç. Kullanıcının ya da deponun mevcut seçimini koru. Siki skill yazarken
+[siki profil notunu](references/siki-profil.md) oku; başlangıç şablonu
+[assets/skill-template-siki.md](assets/skill-template-siki.md), iskelet komutu `beceri yeni --profil siki <ad>`.
+
 ## İş akışını yaz
 
 Hedefi, gerekli bağlamı ve denetlenecek sonucu belirt. Keşfi ve açıklamayı serbest bırak; düşünce

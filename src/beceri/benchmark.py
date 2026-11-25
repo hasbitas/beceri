@@ -818,4 +818,7 @@ def main(argv: list[str]) -> int:
 
 
 if __name__ == "__main__":
+    from beceri.cli import utf8_konsol
+
+    utf8_konsol()
     sys.exit(main(sys.argv[1:]))

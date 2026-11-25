@@ -8,14 +8,17 @@ genel bir şablondan açar, iki hazır skill getirir ve kodlama benchmark'ı iç
 Yalnız standart kütüphane, Python 3.11+. YAML ön bilgi PyYAML olmadan ayrıştırılır. Model ya da ağ çağrısı yoktur.
 
 **English summary.** `beceri` ("skill" in Turkish) is a dependency-free toolkit for people who write AI-agent
-skills (SKILL.md packages). `beceri dogrula <path>...` validates one skill folder or a whole tree against 25
-stable rules (B01–B25): parseable frontmatter (a strict, safe YAML subset parser is built in; no PyYAML needed),
+skills (SKILL.md packages). `beceri dogrula <path>...` validates one skill folder or a whole tree against 26
+stable base rules (B01–B26): parseable frontmatter (a strict, safe YAML subset parser is built in; no PyYAML needed),
 required `name`/`description`, name format and folder match, description length and trigger/boundary wording,
 body size, referenced files that exist, one-level references, leftover backup files, machine-specific home
 paths, secret-looking values (never printed), and model names in skills that declare themselves model-agnostic.
-Rules can be disabled, re-graded or exempted per skill in `.beceri.toml` or `[tool.beceri]`; output is human
-readable or `--json`; exit codes are 0 clean, 1 errors, 2 usage. `beceri yeni <name>` scaffolds a skill from a
-generic template that passes validation. Two ready skills ship in `skills/`: skill design and coding-benchmark
+Two profiles: `esnek` (flexible, default) leaves the body free; `siki` (strict) adds rules S01–S07 for a fixed
+section order, a short purpose, hard body limits, step lines that name object, action, approver and evidence,
+measurement/date narrative and one-level references. Pick it with `--profil siki`, `profil = "siki"` in the
+config or `metadata.profil: "siki"` in a skill. Rules can be disabled, re-graded or exempted per skill in `.beceri.toml` or `[tool.beceri]`; output is human
+readable or `--json`; exit codes are 0 clean, 1 errors, 2 usage. `beceri yeni <name> [--profil siki]` scaffolds
+a skill from the profile's template that passes validation. Two ready skills ship in `skills/`: skill design and coding-benchmark
 task authoring. `beceri benchmark ...` runs the bundled coding benchmark (see `docs/BENCHMARK.md`). Docs and
 identifiers are Turkish.
 
@@ -29,8 +32,8 @@ pip install -e ".[dev]"     # + pytest, ruff
 ## Kullanım
 
 ```
-beceri dogrula <yol>... [--json] [--kati] [--ayar DOSYA | --ayarsiz] [--kapat B20,B23]
-beceri yeni <ad> [--hedef DIZIN] [--aciklama METIN]
+beceri dogrula <yol>... [--json] [--kati] [--profil esnek|siki] [--ayar DOSYA | --ayarsiz] [--kapat B20,B23]
+beceri yeni <ad> [--hedef DIZIN] [--aciklama METIN] [--profil esnek|siki]
 beceri kurallar [--json]
 beceri benchmark ...
 ```
@@ -50,9 +53,9 @@ $ beceri dogrula skills
 2 skill: 0 hata, 0 uyarı
 ```
 
-`--json` çıktısı: `{"beceri", "ayar", "kati", "skiller": [{"yol", "ad", "hatalar", "uyarilar", "muaflar",
-"olcum"}], "ozet": {"skill", "hata", "uyari", "muaf"}}`; her bulgu `{"kural", "mesaj", "dosya", "satir",
-"gerekce"}` taşır.
+`--json` çıktısı: `{"beceri", "ayar", "kati", "skiller": [{"yol", "ad", "profil", "hatalar", "uyarilar",
+"muaflar", "olcum"}], "ozet": {"skill", "hata", "uyari", "muaf"}}`; her bulgu `{"kural", "mesaj", "dosya",
+"satir", "gerekce"}` taşır. İnsan okunur çıktıda `siki` denetlenen skill'in satırı `(siki)` ile biter.
 
 ### Yeni skill
 
@@ -61,7 +64,8 @@ beceri yeni rapor-yazimi --hedef skills
 ```
 
 `skills/rapor-yazimi/SKILL.md` genel şablondan yazılır ve hemen doğrulanır. Şablondaki `DOLDUR` yer tutucuları
-B25 uyarısı verir: iskelet hatasız geçer, `--kati` ise yer tutucular doldurulana kadar kalır.
+B25 uyarısı verir: iskelet hatasız geçer, `--kati` ise yer tutucular doldurulana kadar kalır. `--profil siki`
+sabit bölümlü şablonu kullanır ve ön bilgiye `metadata.profil: "siki"` yazar (bkz. [Profiller](#profiller)).
 
 ## Kurallar
 
@@ -85,15 +89,107 @@ B25 uyarısı verir: iskelet hatasız geçer, `--kati` ise yer tutucular dolduru
 | B16 | hata | `metadata.model-agnostic: "true"` ilan eden skill'in gövdesinde model adı. |
 | B17 | uyarı | `description` ne zaman kullanılmayacağını söylemiyor. |
 | B18 | uyarı | Tetikleyici ilk 200 karakterde yok ya da `description` 500'ü aşıyor. |
-| B19 | uyarı | Gövde 150 satırı ya da 12 KB'ı aşıyor. |
+| B19 | uyarı | Gövde 150 satırı ya da 12 KB'ı aşıyor (yalnız `esnek`; `siki`de S04). |
 | B20 | uyarı | Gövdede tarih var. |
 | B21 | uyarı | 100 satırı aşan referans dosyasında içindekiler yok. |
 | B22 | uyarı | Aynı `name` başka bir taranan klasörde de var. |
 | B23 | uyarı | Gövde satırlarının %20'den fazlası 120 karakteri aşıyor (kod bloğu ve tablo hariç). |
 | B24 | uyarı | Platforma özgü ön bilgi alanı var ama `compatibility` yok. |
 | B25 | uyarı | Şablondan kalan `DOLDUR` yer tutucusu. |
+| B26 | hata | `metadata.profil` bilinmeyen bir değer (`esnek` ya da `siki` olmalı). |
 
-Kimlikler kalıcıdır; kaldırılan bir kuralın kimliği yeniden kullanılmaz. `beceri kurallar` listeyi basar.
+B kuralları iki profilde de denetlenir (B19 hariç). Yalnız `siki` profilin S kuralları
+[Profiller](#profiller) altındadır. Kimlikler kalıcıdır; kaldırılan bir kuralın kimliği yeniden kullanılmaz.
+`beceri kurallar` listeyi kimlik, önem, profil (`ortak`, `esnek`, `siki`) ve açıklamayla basar.
+
+## Profiller
+
+İki skill biçimi desteklenir. Profil yalnız denetlenen kuralları seçer; `--kati` (uyarılar da çıkışı 1 yapar)
+bundan bağımsızdır ve iki profille de kullanılır.
+
+**`esnek`** (varsayılan): ön bilgi ve paket kuralları (B01–B26); gövde serbesttir. Skill bir doldurma formu
+değildir: amaç ve girdi, karar noktaları, sonuç kontrolü ve gerçekten gözlenmiş aksaklıklar gerektiği kadar
+yazılır; kısa skill kısa kalır, boş bölüm ve klasör açılmaz. Sınırlar modelin üslubuna değil görev, erişim,
+dosya sahipliği ve kanıta konur. Keşfe alan bırakan, tek kişinin ya da küçük ekibin yazdığı skill'ler için.
+
+**`siki`**: B kurallarına ek olarak S01–S07. Gövde sabit bir iskelettir ve her adım hangi onayla, neyin
+üzerinde, nerede doğrulanarak yapıldığını söyler. Çok yazarlı skill kümeleri, yetki ve geri alınamaz eylem
+içeren işler, aynı biçimde gözden geçirilmesi gereken skill'ler için. Bedeli: kısa skill de altı bölüm taşır.
+
+### Seçim ve öncelik
+
+| Öncelik | Kaynak | Örnek |
+|---|---|---|
+| 1 | Komut satırı: her skill'i bu profille denetler | `beceri dogrula --profil siki skills` |
+| 2 | Skill'in kendi bildirimi | ön bilgide `metadata:` altında `profil: "siki"` |
+| 3 | Ayar dosyası | `profil = "siki"` (`.beceri.toml` ya da `[tool.beceri]`) |
+| 4 | Varsayılan | `esnek` |
+
+`metadata` açık skill biçiminde serbest bir metin→metin eşlemidir; `profil` anahtarı başka araçları etkilemez.
+Bilinmeyen değer B26 verir ve skill ayardaki profille denetlenir. `beceri yeni --profil siki` bildirimi kendisi
+yazar; ayardaki profil `siki` iken `--profil esnek` ile açılan skill'e `profil: "esnek"` yazılır.
+
+### Sabit bölüm sırası
+
+```
+# <Başlık>
+## Amaç                         (en çok 2 dolu satır; sinirlar.amac_azami_satir)
+## Ne zaman kullan / kullanma
+## Adımlar
+## Değişmezler ve yasaklar
+## Çıktı / rapor biçimi
+## Referanslar
+```
+
+Tek `#` başlık ilk başlıktır; `##` bölümleri yalnız bunlardır ve bu sıradadır. Alt başlık için `###` kullan.
+Başlıklar büyük/küçük harf ve Türkçe harf farkı gözetmeden karşılaştırılır (`## Amac` = `## Amaç`), `/`
+çevresindeki boşluk serbesttir. Kod blokları içindeki başlıklar sayılmaz. Gövde sınırı (`govde_uyari_satir`,
+`govde_uyari_kb`; varsayılan 150 satır, 12 KB) bu profilde hatadır.
+
+### Adım satırı sözdizimi
+
+`## Adımlar` içinde her adım dört alan taşır: **nesne** (hangi dosya, kayıt ya da komut), **eylem** (ne
+yapılır), **yetki** (kim onaylar; yalnız okuyan adımda `yok`), **kanıt** (sonuç nerede doğrulanır). İki
+biçim kabul edilir, karıştırılabilir:
+
+Tablo (önerilen). Başlık tam olarak `Nesne | Eylem | Yetki | Kanıt`; önüne isteğe bağlı bir sıra sütunu
+(`#`, `Adım`, `No`, `Sıra`) gelebilir. İkinci satır ayırıcıdır (`|---|`, hizalama `:` serbest). Her veri
+satırı adımdır ve başlıkla aynı sayıda hücre taşır.
+
+```
+| # | Nesne | Eylem | Yetki | Kanıt |
+|---|---|---|---|---|
+| 1 | `CHANGELOG.md` | son sürüm girdisini oku | yok | girdi rapora alındı |
+| 2 | sürüm etiketi | oluştur ve gönder | sürüm sorumlusu | uzak depoda etiket görünür |
+```
+
+Numaralı madde. Tek satır: `N. **nesne** — eylem · yetki: X · kanıt: Y`. Ayırıcı `—`, `–` ya da `-`;
+alan ayırıcısı `·` ya da `;`; `kanıt:` yerine `kanit:` da olur.
+
+```
+1. **`CHANGELOG.md`** — son sürüm girdisini oku · yetki: yok · kanıt: girdi rapora alındı
+```
+
+Bölümde düz paragraf ve girintili alt madde serbesttir. Girintisiz `-` maddesi adım sayılır ve reddedilir.
+Boş alan (`-`, `?`, `…` dahil) hatadır; yetkide `bilinmiyor`, `belirsiz`, `tbd`, kanıtta ayrıca `yok`
+kabul edilmez. En az bir adım gerekir.
+
+### S kuralları (yalnız `siki`)
+
+| Kimlik | Önem | Ne denetler |
+|---|---|---|
+| S01 | hata | `#` başlık yok, ilk başlık değil ya da birden çok; zorunlu `##` bölümü eksik. |
+| S02 | hata | `##` bölümleri sırasız, tanımsız ya da tekrarlanmış. |
+| S03 | hata | `## Amaç` boş ya da 2 dolu satırdan uzun. |
+| S04 | hata | Gövde 150 satırı ya da 12 KB'ı aşıyor (B19'un yerine). |
+| S05 | hata | `## Adımlar`'da adım yok ya da bir adım nesne, eylem, yetki, kanıt alanlarından birini taşımıyor. |
+| S06 | uyarı | Gövdede ölçüm (`%87`, `340 ms`, `2,5 sn`, `3x`, `12 MB`) ya da ISO dışı tarih (`15 Mart 2026`, `12/03/2026`). |
+| S07 | hata | `references/` altında alt klasör: referanslar tek seviye. |
+
+S06 bir sezgidir: kod blokları ve satır içi kod (`` `12 KB` ``) sayılmaz; ISO tarih zaten B20'dir. Tarihçe,
+ölçüm sonucu ve karar anlatısı `references/` altına (ör. `references/tarihce.md`) gider. Karar anlatısının
+ve aynı kuralın iki yerde yazılmasının (tek sahip ilkesi) otomatik denetimi yoktur; gözden geçirmede bakılır.
+Esnek bir skill'i `siki`ye geçirirken `[[muaf]]` ile gerekçeli geçiş muafiyeti verilebilir.
 
 İzin verilen ön bilgi alanları açık skill biçimindekilerdir: `name`, `description`, `license`, `compatibility`,
 `metadata`, `allowed-tools`. Claude Code'un ek alanları (`disable-model-invocation`, `user-invocable`,
@@ -117,6 +213,7 @@ köke doğru ilk bulunan kullanılır; `.git` içeren klasörde arama durur. `--
 [tool.beceri]
 kapali = ["B20"]                  # kapatılan kurallar
 kati = false                      # true: uyarılar da çıkışı 1 yapar
+profil = "esnek"                  # varsayılan profil: esnek ya da siki
 ek_alanlar = ["x-ekip"]           # izin verilen ek ön bilgi alanları
 ayrilmis_adlar = ["claude", "anthropic"]
 model_adlari = ["ozel-model"]     # B16 için ek model adları
@@ -134,6 +231,7 @@ govde_uyari_kb = 12
 uzun_satir = 120
 uzun_satir_oran = 0.20
 referans_icindekiler_satir = 100
+amac_azami_satir = 2              # siki: ## Amaç dolu satır sınırı
 
 [tool.beceri.onem]
 B16 = "uyari"                     # önemi değiştir
@@ -153,7 +251,7 @@ Muaf tutulan bulgular raporda `muaf` olarak gerekçesiyle görünür ve çıkı�
 
 | Skill | Ne için |
 |---|---|
-| [`skill-tasarimi`](skills/skill-tasarimi/SKILL.md) | Bir yöntemden ya da referans skill'den yeni skill tasarlamak, var olanı gözden geçirmek. Başlangıç şablonu `assets/` altında; `beceri yeni` ile aynıdır. |
+| [`skill-tasarimi`](skills/skill-tasarimi/SKILL.md) | Bir yöntemden ya da referans skill'den yeni skill tasarlamak, var olanı gözden geçirmek, profil seçmek. İki başlangıç şablonu `assets/` altında; `beceri yeni` ile aynıdır. |
 | [`kodlama-benchmark-yazimi`](skills/kodlama-benchmark-yazimi/SKILL.md) | Kodlama ajanları için benchmark görevi yazmak: görünür spec, referans ve tek noktalı hatalı çözüm, bağımsız oracle'lı gizli testler. |
 
 İkisi de `metadata.model-agnostic: "true"` taşır; B16 gövdelerinde model adı olmadığını denetler.

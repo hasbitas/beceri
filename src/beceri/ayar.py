@@ -6,6 +6,7 @@ bilinmeyen kural kimliği ValueError'dur (komut 2 ile çıkar).
 
     kapali = ["B20"]                  # kapatılan kurallar
     kati = false                      # uyarılar da çıkışı 1 yapar
+    profil = "esnek"                  # varsayılan profil: esnek ya da siki
     ek_alanlar = ["x-ekip"]           # izin verilen ek ön bilgi alanları
     ayrilmis_adlar = ["claude", "anthropic"]
     model_adlari = ["ozel-model"]     # B16 için ek model adları (sözcük olarak aranır)
@@ -26,7 +27,7 @@ import tomllib
 from dataclasses import dataclass, field, replace
 from pathlib import Path
 
-from beceri.kurallar import KURAL, ONEMLER
+from beceri.kurallar import ESNEK, KURAL, ONEMLER, PROFILLER
 
 SINIRLAR = {
     "ad_azami": 64,
@@ -40,8 +41,9 @@ SINIRLAR = {
     "uzun_satir": 120,
     "uzun_satir_oran": 0.20,
     "referans_icindekiler_satir": 100,
+    "amac_azami_satir": 2,
 }
-_ANAHTARLAR = {"kapali", "kati", "ek_alanlar", "ayrilmis_adlar", "model_adlari", "atla", "sinirlar", "onem", "muaf"}
+_ANAHTARLAR = {"kapali", "kati", "profil", "ek_alanlar", "ayrilmis_adlar", "model_adlari", "atla", "sinirlar", "onem", "muaf"}
 _MUAF_ANAHTAR = {"skill", "kural", "gerekce"}
 
 
@@ -49,6 +51,8 @@ _MUAF_ANAHTAR = {"skill", "kural", "gerekce"}
 class Ayar:
     kapali: frozenset = frozenset()
     kati: bool = False
+    profil: str = ESNEK          # ayardan gelen varsayılan; skill metadata.profil ile değiştirebilir
+    profil_zorla: str | None = None  # komut satırı (--profil): skill'in bildirdiğini de geçersiz kılar
     ek_alanlar: frozenset = frozenset()
     ayrilmis_adlar: tuple = ("claude", "anthropic")
     model_adlari: tuple = ()
@@ -68,6 +72,16 @@ class Ayar:
         kimlikler = {k.strip().upper() for k in kimlikler if k.strip()}
         _kimlikleri_denetle(kimlikler, "--kapat")
         return replace(self, kapali=self.kapali | kimlikler)
+
+    def zorla(self, profil):
+        """Komut satırından gelen profil: her skill bu profille denetlenir."""
+        return replace(self, profil_zorla=profil_denetle(profil, "--profil"))
+
+
+def profil_denetle(deger, alan):
+    if not isinstance(deger, str) or deger.strip().lower() not in PROFILLER:
+        raise ValueError(f"{alan}: profil {' ya da '.join(PROFILLER)} olmalı: {deger!r}")
+    return deger.strip().lower()
 
 
 def _kimlikleri_denetle(kimlikler, alan):
@@ -98,6 +112,8 @@ def ayar_kur(ham, kaynak=""):
         if not isinstance(ham["kati"], bool):
             raise ValueError("kati true/false olmalı")
         a = replace(a, kati=ham["kati"])
+    if "profil" in ham:
+        a = replace(a, profil=profil_denetle(ham["profil"], "profil"))
     if "ek_alanlar" in ham:
         a = replace(a, ek_alanlar=frozenset(_metin_listesi(ham["ek_alanlar"], "ek_alanlar")))
     if "ayrilmis_adlar" in ham:

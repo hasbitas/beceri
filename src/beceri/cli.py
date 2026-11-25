@@ -1,7 +1,7 @@
 """beceri komut satırı.
 
-  beceri dogrula <yol>... [--json] [--kati] [--ayar DOSYA | --ayarsiz] [--kapat B20,B23]
-  beceri yeni <ad> [--hedef DIZIN] [--aciklama METIN]
+  beceri dogrula <yol>... [--json] [--kati] [--profil esnek|siki] [--ayar DOSYA | --ayarsiz] [--kapat B20,B23]
+  beceri yeni <ad> [--hedef DIZIN] [--aciklama METIN] [--profil esnek|siki]
   beceri kurallar [--json]
   beceri benchmark ...          (beceri.benchmark modülüne aynen aktarılır)
 
@@ -16,7 +16,7 @@ import sys
 from beceri import __version__
 from beceri import ayar as ayar_mod
 from beceri.dogrula import ozet, skill_denetle, tara
-from beceri.kurallar import KURALLAR
+from beceri.kurallar import ESNEK, KURALLAR, PROFILLER
 from beceri.yeni import olustur
 
 
@@ -45,6 +45,8 @@ def parser():
     d.add_argument("yollar", nargs="+", help="skill klasörü, SKILL.md ya da skill'leri içeren klasör")
     d.add_argument("--json", action="store_true", help="makine okunur çıktı")
     d.add_argument("--kati", action="store_true", help="uyarılar da çıkışı 1 yapar")
+    d.add_argument("--profil", choices=PROFILLER,
+                   help="her skill'i bu profille denetle (skill'in metadata.profil'ini ve ayarı geçersiz kılar)")
     grup = d.add_mutually_exclusive_group()
     grup.add_argument("--ayar", help=".beceri.toml ya da pyproject.toml yolu")
     grup.add_argument("--ayarsiz", action="store_true", help="ayar dosyası arama; varsayılanları kullan")
@@ -53,6 +55,7 @@ def parser():
     y.add_argument("ad", help="skill adı (küçük harf, rakam, tire)")
     y.add_argument("--hedef", default=".", help="skill klasörünün açılacağı dizin (varsayılan: .)")
     y.add_argument("--aciklama", help="description metni (varsayılan: doldurulacak yer tutucu)")
+    y.add_argument("--profil", choices=PROFILLER, help="şablon profili (varsayılan: ayardaki profil ya da esnek)")
     k = alt.add_parser("kurallar", help="kural listesini yaz")
     k.add_argument("--json", action="store_true")
     alt.add_parser("benchmark", help="benchmark araçları (beceri.benchmark); ayrıntı: beceri benchmark --help",
@@ -68,6 +71,8 @@ def _ayar(a):
     kapat = getattr(a, "kapat", "")
     if kapat:
         ayar = ayar.kapat(kapat.split(","))
+    if getattr(a, "profil", None):
+        ayar = ayar.zorla(a.profil)
     return ayar
 
 
@@ -85,7 +90,7 @@ def _rapor(sonuclar, ayar, json_mu, kati):
             durum = "UYARI"
         else:
             durum = "TAMAM"
-        _yaz(f"[{durum}] {s.yol}")
+        _yaz(f"[{durum}] {s.yol}" + (f" ({s.profil})" if s.profil != ESNEK else ""))
         for tur, liste in (("hata", s.hatalar), ("uyari", s.uyarilar), ("muaf", s.muaflar)):
             for b in liste:
                 yer = f"{b.yer()}: " if b.yer() else ""
@@ -127,8 +132,10 @@ def yeni_komutu(a):
     except ValueError as e:
         _hata(str(e))
         return 2
+    profil = a.profil or ayar.profil
     try:
-        klasor = olustur(a.ad, a.hedef, a.aciklama, ayar.ayrilmis_adlar, ayar.sinirlar["ad_azami"])
+        klasor = olustur(a.ad, a.hedef, a.aciklama, ayar.ayrilmis_adlar, ayar.sinirlar["ad_azami"], profil,
+                         isaretle=profil != ESNEK or ayar.profil != ESNEK)
     except FileExistsError as e:
         _hata(str(e))
         return 1
@@ -136,18 +143,18 @@ def yeni_komutu(a):
         _hata(str(e))
         return 2
     _yaz(f"oluşturuldu: {klasor / 'SKILL.md'}")
-    sonuc = skill_denetle(klasor, ayar, a.ad, str(klasor).replace("\\", "/"))
+    sonuc = skill_denetle(klasor, ayar.zorla(profil), a.ad, str(klasor).replace("\\", "/"))
     _rapor([sonuc], ayar, False, False)
     return _cikis([sonuc], False)
 
 
 def kurallar_komutu(a):
     if a.json:
-        _yaz(json.dumps([{"kimlik": k.kimlik, "onem": k.onem, "aciklama": k.aciklama} for k in KURALLAR],
-                        ensure_ascii=False, indent=2))
+        _yaz(json.dumps([{"kimlik": k.kimlik, "onem": k.onem, "profil": k.profil, "aciklama": k.aciklama}
+                         for k in KURALLAR], ensure_ascii=False, indent=2))
     else:
         for k in KURALLAR:
-            _yaz(f"{k.kimlik}  {k.onem:<5}  {k.aciklama}")
+            _yaz(f"{k.kimlik}  {k.onem:<5}  {k.profil:<5}  {k.aciklama}")
     return 0
 
 
@@ -176,5 +183,13 @@ def main(argv=None):
     return kurallar_komutu(a)
 
 
+def utf8_konsol():
+    """Konsol akışlarını UTF-8'e çevirir: cp1252 gibi kod sayfalarında Türkçe çıktı çökmesin."""
+    for akis in (sys.stdout, sys.stderr):
+        if hasattr(akis, "reconfigure"):
+            akis.reconfigure(encoding="utf-8", errors="replace")
+
+
 def cli():
+    utf8_konsol()
     sys.exit(main())

@@ -44,7 +44,11 @@ def test_temiz_skill_bulgusuz(tmp_path):
 
 def test_kural_kimlikleri_kalici_ve_sirali():
     kimlikler = [k.kimlik for k in KURALLAR]
-    assert kimlikler == [f"B{i:02d}" for i in range(1, len(KURALLAR) + 1)]
+    b = [k for k in kimlikler if k.startswith("B")]
+    s = [k for k in kimlikler if k.startswith("S")]
+    assert kimlikler == b + s
+    assert b == [f"B{i:02d}" for i in range(1, len(b) + 1)]
+    assert s == [f"S{i:02d}" for i in range(1, len(s) + 1)]
     assert all(k.onem in ("hata", "uyari") and k.aciklama for k in KURALLAR)
 
 
@@ -440,4 +444,4 @@ def test_ic_ice_skill_agaci(tmp_path):
 
 
 def test_kural_tablosu_tam():
-    assert set(KURAL) == {f"B{i:02d}" for i in range(1, 26)}
+    assert set(KURAL) == {f"B{i:02d}" for i in range(1, 27)} | {f"S{i:02d}" for i in range(1, 8)}

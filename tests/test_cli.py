@@ -198,3 +198,17 @@ def test_python_m_beceri(tmp_path):
     r = subprocess.run([sys.executable, "-m", "beceri", "--version"], check=False, cwd=tmp_path, env=ortam,
                        capture_output=True, text=True)
     assert r.stdout.strip() == f"beceri {__version__}"
+
+
+@pytest.mark.parametrize("argv", [
+    ["benchmark", "dogrula", "--gorev", "a-fifo-ledger", "--paralel", "1"],
+    ["dogrula", str(SKILLER)],
+    ["kurallar"],
+])
+def test_cp1252_konsolda_turkce_cikti_cokmez(argv):
+    """Windows konsolu (cp1252) 'İ' gibi harfleri kodlayamaz; giriş noktası akışları UTF-8'e çevirir."""
+    ortam = dict(os.environ, PYTHONPATH=str(KOK / "src"), PYTHONIOENCODING="cp1252", PYTHONUTF8="0")
+    r = subprocess.run([sys.executable, "-c", "from beceri.cli import cli; cli()", *argv], check=False, cwd=KOK,
+                       env=ortam, capture_output=True)
+    assert r.returncode == 0, r.stderr.decode("utf-8", "replace")
+    assert any(h in r.stdout.decode("utf-8") for h in ("GEÇERLİ", "ı", "ç"))
