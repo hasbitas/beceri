@@ -3,7 +3,7 @@
 Ajan skill'i yazanlar için **bağımlılıksız araç takımı**. Skill, bir kodlama ajanının (Claude Code, Codex,
 Cursor ve benzerleri) gerektiğinde yüklediği `SKILL.md` paketidir: ön bilgi (`name`, `description`), talimat
 gövdesi ve isteğe bağlı `references/`, `scripts/`, `assets/` klasörleri. beceri bu paketleri doğrular, yenisini
-genel bir şablondan açar, iki hazır skill getirir ve kodlama benchmark'ı için bir koşucu barındırır.
+genel bir şablondan açar, üç hazır skill getirir ve kodlama benchmark'ı için bir koşucu barındırır.
 
 Yalnız standart kütüphane, Python 3.11+. YAML ön bilgi PyYAML olmadan ayrıştırılır. Model ya da ağ çağrısı yoktur.
 
@@ -15,8 +15,8 @@ body size, referenced files that exist, one-level references, leftover backup fi
 paths, secret-looking values (never printed), and model names in skills that declare themselves model-agnostic.
 Rules can be disabled, re-graded or exempted per skill in `.beceri.toml` or `[tool.beceri]`; output is human
 readable or `--json`; exit codes are 0 clean, 1 errors, 2 usage. `beceri yeni <name>` scaffolds a skill from a
-generic template that passes validation. Two ready skills ship in `skills/`: skill design and coding-benchmark
-task authoring. `beceri benchmark ...` runs the bundled coding benchmark (see `docs/BENCHMARK.md`). Docs and
+generic template that passes validation. Three ready skills ship in `skills/`: skill design, coding-benchmark
+task authoring and object-centric technical visuals. `beceri benchmark ...` runs the bundled coding benchmark (see `docs/BENCHMARK.md`). Docs and
 identifiers are Turkish.
 
 ## Kurulum
@@ -46,8 +46,9 @@ skill bulunamadı ya da `yeni` için klasör zaten var, **2** kullanım ya da ay
 ```
 $ beceri dogrula skills
 [TAMAM] skills/kodlama-benchmark-yazimi
+[TAMAM] skills/nesne-merkezli-gorsel
 [TAMAM] skills/skill-tasarimi
-2 skill: 0 hata, 0 uyarı
+3 skill: 0 hata, 0 uyarı
 ```
 
 `--json` çıktısı: `{"beceri", "ayar", "kati", "skiller": [{"yol", "ad", "hatalar", "uyarilar", "muaflar",
@@ -148,15 +149,16 @@ Muaf tutulan bulgular raporda `muaf` olarak gerekçesiyle görünür ve çıkı�
 
 ## Hazır skill'ler
 
-`skills/` altında, doğrulamadan uyarısız geçen iki genel skill. Ajanının skill klasörüne kopyalayarak kullan
+`skills/` altında, doğrulamadan uyarısız geçen üç genel skill. Ajanının skill klasörüne kopyalayarak kullan
 (ör. projede `.claude/skills/` ya da `.agents/skills/`).
 
 | Skill | Ne için |
 |---|---|
 | [`skill-tasarimi`](skills/skill-tasarimi/SKILL.md) | Bir yöntemden ya da referans skill'den yeni skill tasarlamak, var olanı gözden geçirmek. Başlangıç şablonu `assets/` altında; `beceri yeni` ile aynıdır. |
 | [`kodlama-benchmark-yazimi`](skills/kodlama-benchmark-yazimi/SKILL.md) | Kodlama ajanları için benchmark görevi yazmak: görünür spec, referans ve tek noktalı hatalı çözüm, bağımsız oracle'lı gizli testler. |
+| [`nesne-merkezli-gorsel`](skills/nesne-merkezli-gorsel/SKILL.md) | Konunun gerçek yapısını ana nesne yapan, içerikten kodla çizilen teknik görseller: levha, ölçek cetveli, adım animasyonu, etkileşimli deney. Marka renkleri ve yazı tipleri doldurulacak `brand/frame.md` çerçevesinden gelir; şablonlar bağımlılıksızdır (SVG üreten Python, düz JS ve CSS). |
 
-İkisi de `metadata.model-agnostic: "true"` taşır; B16 gövdelerinde model adı olmadığını denetler.
+Üçü de `metadata.model-agnostic: "true"` taşır; B16 gövdelerinde model adı olmadığını denetler.
 
 ## Benchmark
 
