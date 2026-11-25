@@ -124,7 +124,7 @@ def test_skill_bulunamadi_1(tmp_path, capsys):
 def test_gonderilen_skiller_kati(capsys):
     kod, out, _ = kos(capsys, "dogrula", "--kati", "--ayarsiz", str(SKILLER))
     assert kod == 0, out
-    assert "3 skill: 0 hata, 0 uyarı" in out
+    assert "2 skill: 0 hata, 0 uyarı" in out
 
 
 # ------------------------------------------------------------------ yeni

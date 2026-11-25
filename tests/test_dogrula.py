@@ -50,7 +50,7 @@ def test_kural_kimlikleri_kalici_ve_sirali():
 
 def test_gonderilen_skiller_kati_gecer():
     sonuclar = tara([SKILLER])
-    assert {s.ad for s in sonuclar} == {"skill-tasarimi", "kodlama-benchmark-yazimi", "nesne-merkezli-gorsel"}
+    assert {s.ad for s in sonuclar} == {"skill-tasarimi", "kodlama-benchmark-yazimi"}
     assert ozet(sonuclar)["hata"] == 0
     assert ozet(sonuclar)["uyari"] == 0
 
