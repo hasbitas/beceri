@@ -1,0 +1,12 @@
+{
+  "task_id": "interval-merge",
+  "kind": "single-file",
+  "specification": "Implement merge(intervals) in solution.py. The argument must be a list or tuple whose items are lists or tuples, each containing exactly two endpoints [start, end]. Endpoints must be Python integers, excluding booleans, and start must not exceed end. Raise TypeError if the outer argument is not a list or tuple, if an item is not a list or tuple, or if either endpoint is not an integer or is a boolean. Raise ValueError if an item does not contain exactly two endpoints or if start is greater than end. Validate items in their input order: for each item check its container type, then its length, then both endpoint types, then endpoint order, before proceeding to the next item. Do not coerce values. All items must be validated, including items that would be contained in another interval. For valid input, return a list of two-element lists representing the union of the closed intervals. Merge overlapping intervals and intervals sharing an endpoint, transitively, regardless of input order. Intervals separated by a positive gap remain separate even when their integer endpoints differ by one: [1, 2] and [3, 4] remain separate, whereas [1, 2] and [2, 4] merge. Return intervals ordered by increasing start, with no overlapping or endpoint-sharing pairs. Preserve isolated zero-length intervals, and support negative and arbitrarily large integer endpoints. Empty input returns an empty list. Do not mutate the outer input or any of its items, including when validation fails. Every returned interval must be a fresh list, not an input item, and must not share its list object with another returned interval. The returned outer list must also be fresh on every call.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 6,
+    "hidden": 8
+  }
+}

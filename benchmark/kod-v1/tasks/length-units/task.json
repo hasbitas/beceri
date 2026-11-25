@@ -1,0 +1,12 @@
+{
+  "task_id": "length-units",
+  "kind": "single-file",
+  "specification": "Implement to_meters(text) in solution.py. It accepts a string describing a length and returns a float in meters. Non-string arguments must raise TypeError. Whitespace means only the ASCII characters space, tab, carriage return, line feed, form feed and vertical tab. Ignore leading and trailing whitespace. The remaining input must contain one or more components, optionally preceded by a single '+' or '-' immediately adjacent to the first number. That sign applies to the sum of all components, not just the first. Each component consists of an unsigned decimal number, optional whitespace, and a unit. A decimal number uses ASCII digits only and has one of these forms: one or more digits, one or more digits followed by a decimal point and zero or more digits, or a decimal point followed by one or more digits. Exponents, commas and fractions are not allowed. The only units are m, cm, mm, in, ft and yd, matched case-insensitively for ASCII letters. Their meter factors are respectively 1, 0.01, 0.001, 0.0254, 0.3048 and 0.9144. Components may appear in any order and may be separated by any amount of whitespace, including none. Each unit may occur at most once, ignoring case. Component magnitudes need not be less than any particular bound, and zero is allowed. Consume the entire input: empty input, missing numbers or units, unknown units, repeated units, signs anywhere other than the permitted leading position, non-ASCII whitespace or digits, and any other syntax violation must raise ValueError. Valid examples include '5 ft 3 in' (1.6002 meters), '12cm' (0.12 meters), '1.5 m' (1.5 meters), '-1ft6in' (-0.4572 meters), '.5M2.cm' (0.52 meters) and '1cm1m' (1.01 meters). Use ordinary floating-point precision; results are compared with a relative and absolute tolerance of 1e-12 for ordinary-sized inputs. If a component's converted magnitude or the sum cannot be represented as a finite float, raise ValueError instead of returning an infinity or NaN.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

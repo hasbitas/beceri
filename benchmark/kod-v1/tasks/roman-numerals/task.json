@@ -1,0 +1,12 @@
+{
+  "task_id": "roman-numerals",
+  "kind": "single-file",
+  "specification": "Implement the public functions to_roman(value) and from_roman(text) in solution.py. to_roman accepts Python integers, excluding bool, and returns the canonical uppercase Roman numeral for values in the inclusive range 1 through 3999. Raise TypeError for non-integer inputs (including bool), and ValueError for integers outside that range. from_roman accepts strings only; raise TypeError for any non-string input. It returns the integer represented by a canonical Roman numeral in the same range, and raises ValueError for every other string. Canonical notation consists of an optional thousands part (zero through three M characters), then a hundreds part, tens part, and units part, in that order. Each of the last three parts represents a decimal digit: zero is omitted; one through three repeat the place's one-symbol; four uses the one-symbol followed by the five-symbol; five uses the five-symbol; six through eight use the five-symbol followed by one through three one-symbols; nine uses the one-symbol followed by the next place's one-symbol. The symbols for units are I, V, X; for tens X, L, C; and for hundreds C, D, M. The entire numeral must be nonempty. Only ASCII uppercase I, V, X, L, C, D, M are permitted, with no whitespace or other characters anywhere. Do not trim, change case, coerce inputs, or accept non-canonical spellings even if an additive or subtractive interpretation would produce an in-range number. Both functions must work independently and round-trip every value in the supported range.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

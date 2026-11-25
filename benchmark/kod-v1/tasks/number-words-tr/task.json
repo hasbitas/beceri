@@ -1,0 +1,12 @@
+{
+  "task_id": "number-words-tr",
+  "kind": "single-file",
+  "specification": "Implement to_words(n) in solution.py. It returns the lowercase Turkish cardinal spelling of an integer from 0 through 999999 inclusive as a Unicode str. Accept instances of int (including subclasses) except bool; raise TypeError for bool or any non-int input, and ValueError for an int outside the supported range. The spelling of zero is 'sıfır'. The units 1 through 9 are 'bir', 'iki', 'üç', 'dört', 'beş', 'altı', 'yedi', 'sekiz', 'dokuz'. The tens 10 through 90 are 'on', 'yirmi', 'otuz', 'kırk', 'elli', 'altmış', 'yetmiş', 'seksen', 'doksan'. Write a nonzero tens digit before a nonzero units digit. For hundreds use 'yüz' for 100, not 'bir yüz'; for 200 through 900 use the unit word followed by 'yüz', then append the spelling of the nonzero remainder below 100 if present. For numbers at least 1000, split into a thousands quotient and a remainder below 1000. If the quotient is 1, write just 'bin', never 'bir bin'; otherwise write the quotient using the rules for numbers below 1000, followed by 'bin'. Append the remainder using those same rules only when it is nonzero. Omitted zero digits and zero groups produce no words; only the number 0 itself uses 'sıfır'. Separate every word with exactly one ASCII space, including around 'yüz' and 'bin'; use no leading or trailing whitespace, punctuation, or hyphens. Preserve the Turkish characters exactly. The function must work for repeated independent calls and must not print output.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "duration-parse",
+  "kind": "single-file",
+  "specification": "Implement parse_duration(text) in solution.py. It returns a Python int containing the total number of seconds represented by text. text must be a str; any other input raises TypeError. Remove leading and trailing whitespace using Python str.strip semantics, then require one or more immediately adjacent components. Each component consists of one or more ASCII decimal digits (0 through 9) immediately followed by one lowercase unit letter: d (86400 seconds), h (3600), m (60), or s (1). Components must occur in strictly descending unit order d, h, m, s, with any units omitted, and no unit may occur twice. Leading zeros and zero-valued components are permitted, but order and uniqueness apply even to zero-valued components. Component magnitudes are unrestricted nonnegative integers: for example, 90m is valid and means 5400 seconds, without requiring normalization. Integers and totals must be handled exactly, including component digit strings of at least 5000 digits, without changing interpreter-wide configuration. An empty or whitespace-only string, internal whitespace, signs, decimal points, uppercase units, non-ASCII digits, missing quantities or units, extra characters, repeated units, and out-of-order units all raise ValueError. The entire stripped input must conform to these rules; valid prefixes or suffixes must not be accepted on their own. Examples: 1h30m15s returns 5415, 45s returns 45, and 2d3s returns 172803. Do not perform input coercion or return partial results for malformed input.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

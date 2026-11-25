@@ -1,0 +1,12 @@
+{
+  "task_id": "lru-simulate",
+  "kind": "single-file",
+  "specification": "Implement simulate(capacity, keys) in solution.py. Simulate an initially empty least-recently-used cache and return a fresh list of booleans, one per requested key in encounter order: True for a hit (the key was resident immediately before the request), False for a miss. Each request, including a hit, makes its key the most recently used resident. On a miss with positive capacity, insert the key and, if necessary, evict the resident whose most recent request occurred earliest. Capacity zero stores nothing, so every request is a miss. Each call starts with independent empty cache state. Capacity must have exactly the built-in int type (booleans and int subclasses are not accepted); otherwise raise TypeError. A negative capacity raises ValueError. Validate capacity before iterating keys. keys may be any finite iterable, including a single-pass iterator or a string; consume it once, in order, without modifying caller-owned containers. Each yielded key must be hashable; raise TypeError on an unhashable key even at capacity zero. Non-iterable keys raises TypeError. Key matching follows ordinary Python dictionary key equality and hashing, not identity or string conversion; equal hashable keys such as 1 and True refer to the same cache entry, while unequal keys with identical hashes remain distinct. Return an empty fresh list for an empty iterable. No input elements need to be copied, and no cache state may be retained between calls.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

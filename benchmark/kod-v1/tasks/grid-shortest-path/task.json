@@ -1,0 +1,12 @@
+{
+  "task_id": "grid-shortest-path",
+  "kind": "single-file",
+  "specification": "Implement shortest(grid, start, goal), returning the minimum number of moves from start to goal, or -1 when no path exists. The grid must be a nonempty list or tuple of nonempty strings, all of equal length, containing only '.' (open) and '#' (wall). Each coordinate must be a list or tuple of exactly two integers (row, column); booleans are not accepted as integers. Coordinates are zero-based and must lie within the grid. Any invalid grid or coordinate must raise ValueError, including when the other endpoint is a wall or the endpoints are equal. Validate the whole grid, including rows not needed by a path. Movement is one cell up, down, left, or right, staying within the grid and never entering a wall; diagonal movement and wrapping are forbidden. Each move costs one. If either endpoint is a wall, return -1, even if the endpoints coincide. Equal open endpoints have distance 0. Do not modify any input. Use only the Python standard library.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

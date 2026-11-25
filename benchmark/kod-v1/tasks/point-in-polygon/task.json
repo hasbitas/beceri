@@ -1,0 +1,12 @@
+{
+  "task_id": "point-in-polygon",
+  "kind": "single-file",
+  "specification": "Implement locate(point, polygon) in solution.py. Return exactly one of the strings 'inside', 'outside', or 'boundary', describing the point's position relative to the filled region of a simple polygon in the Cartesian plane. A point on any finite edge segment, including an endpoint, is 'boundary'; a point on an edge's infinite supporting line but beyond the segment is not boundary unless it lies on some other edge. Otherwise use the polygon's ordinary interior and exterior, including for concave polygons. point is a list or tuple of two built-in Python integers (x, y). polygon is a list or tuple of such coordinate pairs in perimeter order, clockwise or counterclockwise. The final vertex is implicitly joined to the first. An explicitly repeated first vertex at the end and consecutive duplicate vertices are also allowed and do not change the region. Collinear adjacent edges are allowed. After ignoring consecutive duplicates and an optional closing copy, inputs are guaranteed to describe a simple polygon of nonzero area with at least three distinct vertices; nonadjacent edges do not touch or cross. Coordinates can be negative or arbitrarily large integers: classification must use their exact mathematical values, without rounding or an epsilon tolerance. The result must not depend on the starting vertex, orientation, or whether lists or tuples are used. Do not mutate point, polygon, or any vertex. Inputs outside this contract need not be validated and have no specified behavior. Use only the Python standard library.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

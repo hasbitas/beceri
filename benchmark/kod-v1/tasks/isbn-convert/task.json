@@ -1,0 +1,12 @@
+{
+  "task_id": "isbn-convert",
+  "kind": "single-file",
+  "specification": "Implement two public functions in solution.py: isbn10_to_13(value) and isbn13_to_10(value). Each accepts a string and returns a canonical ISBN string without separators. Non-string arguments must raise TypeError. Before validation, remove every ASCII space (U+0020) and hyphen-minus (U+002D), wherever they occur. Do not remove or accept other whitespace, punctuation, or Unicode digits. Invalid strings must raise ValueError, not be repaired. ISBN-10 input must have exactly ten characters after separator removal: nine ASCII digits followed by an ASCII digit or X or x. Its check digit has numeric value 10 for either X or x; the sum of all ten numeric values weighted 10,9,...,1 must be divisible by 11. Convert a valid ISBN-10 by discarding its check digit, prepending 978, and computing a new ISBN-13 check digit. ISBN-13 input must have exactly thirteen ASCII digits after separator removal, must start with 978 or 979, and must have a valid check digit: the sum of the first twelve digits weighted alternately 1 and 3 from the left, plus the final digit, must be divisible by 10. A valid 979 ISBN has no ISBN-10 equivalent and isbn13_to_10 must raise ValueError for it. Convert a valid 978 ISBN-13 by removing its prefix and check digit and computing an ISBN-10 check digit for the remaining nine digits. The new ISBN-10 check digit makes the weighted sum described above divisible by 11, and must be written as uppercase X when its value is 10. The new ISBN-13 check digit makes the weighted sum described above divisible by 10. Both functions must validate the supplied check digit before converting; no external registration, publisher, or allocation checks are required. All nine-digit ISBN-10 bodies, including leading-zero or all-zero bodies, are permitted if their check digits are valid. Return values are always strings. Exception messages are unspecified.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 3,
+    "hidden": 5
+  }
+}

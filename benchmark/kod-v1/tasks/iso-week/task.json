@@ -1,0 +1,12 @@
+{
+  "task_id": "iso-week",
+  "kind": "single-file",
+  "specification": "Implement iso_week(date_text), returning a two-element tuple of integers (iso_year, iso_week_number). The input must be a string in exactly the ten-character ASCII form YYYY-MM-DD: four digits for a year from 0001 through 9999, a hyphen, two digits for the month, a hyphen, and two digits for the day. It must denote a valid date in the proleptic Gregorian calendar, including the Gregorian leap-year rules. No surrounding whitespace, alternate separators, Unicode digits, missing leading zeroes, time suffixes, or other extra characters are accepted. Raise TypeError for any non-string input, and ValueError for any string that does not meet these format or calendar requirements; exception messages are not specified. Return ISO 8601 week dates: weeks start on Monday, week 1 is the week containing January 4 (equivalently the year's first Thursday), and the ISO year is the year to which that week belongs, not necessarily the date's calendar year. Thus dates near either end of a calendar year can belong to the previous or next ISO year, and valid week numbers range from 1 through 52 or 53 as appropriate. Support the entire stated date range without overflow, including 0001-01-01 and 9999-12-31. The function must not print anything or change global state.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

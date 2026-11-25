@@ -1,0 +1,12 @@
+{
+  "task_id": "interval-subtract",
+  "kind": "single-file",
+  "specification": "Implement subtract(base, holes) in solution.py. A half-open interval (start, end) contains the points x for which start <= x < end. base is a two-element tuple or list of integers with start <= end. holes is a finite iterable of such intervals, each also with start <= end; it may be a one-shot iterator. Inputs satisfying these conditions are the only required inputs. Return a new list of two-element tuples representing exactly the points in base that are not in any hole. The result must contain only nonempty intervals, sorted by increasing start, and must be maximal: adjacent remaining intervals must not overlap or touch. Empty base intervals yield an empty list. Empty holes have no effect. Holes may be unsorted, repeated, overlapping, nested, touching, or partly or wholly outside base; only their union within base is removed. Endpoints must be preserved as exact integers, including negative integers and arbitrarily large integers, without conversion to floating point. Do not modify base, the holes collection, or any interval supplied by the caller. Consuming a holes iterator is permitted. Do not retain state between calls. The module must expose the function subtract(base, holes); use only the Python standard library.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

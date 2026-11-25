@@ -1,0 +1,12 @@
+{
+  "task_id": "cumulative-pick",
+  "kind": "single-file",
+  "specification": "Implement pick(weights, r), returning a built-in int index into weights. weights must be a list or tuple (including subclasses) of nonnegative built-in int or float values; bool and other numeric types are not accepted. r must be a built-in int or float, not bool, and must satisfy 0 <= r < 1. Floats in either argument must be finite. Raise TypeError for an invalid container type or an element or r of an invalid type. Raise ValueError for an empty weights container, a negative or non-finite weight, an all-zero weights container, or an out-of-range or non-finite r. Validate every weight even if an earlier weight would receive the selection. No particular validation order is required when multiple inputs are invalid. Do not modify weights, on either success or failure. Weights need not sum to one. Let T be the sum of all weights and let C_i be the sum through index i. Return the smallest index i whose weight is strictly positive and for which r*T < C_i. Thus each positive weight owns an interval closed on the left and open on the right, exact cumulative boundaries belong to the next positive weight, and zero weights are never selected. All sums, products, and comparisons in this definition refer to exact mathematical values: integers retain arbitrary precision, and each float denotes its exact stored binary value. Intermediate overflow, underflow, or floating-point rounding must not change the result. The function must handle arbitrarily large integers and all finite floats, including subnormal values. Do not perform any random sampling; r is provided by the caller.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

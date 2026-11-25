@@ -1,0 +1,12 @@
+{
+  "task_id": "anagram-groups",
+  "kind": "single-file",
+  "specification": "Implement group_anagrams(words), accepting any finite iterable of strings and returning a list of lists of the original strings. All input strings are valid Unicode; no validation of other input types is required. For each string, define its comparison text by first applying Unicode casefolding and then Unicode NFC normalization, in that order. Define its signature by retaining only characters of the comparison text for which str.isalpha() is true and sorting those retained characters in ascending Python string order, preserving every occurrence. Two strings belong to the same group exactly when their signatures are equal. Thus punctuation, whitespace, digits, and any remaining non-letter characters do not affect group membership, but repeated letters do. Strings with no retained letters all belong to one group. Preserve the original strings unchanged, including their original case and punctuation, and preserve all duplicate occurrences. Within each group, sort by comparison text in ascending Python string order, breaking ties by the original string in ascending Python string order. Order the groups by descending number of input occurrences in the group; for groups of equal size, order by their signatures in ascending Python string order. Empty input returns an empty list. Consume the iterable only once, do not modify an input list, and return fresh outer and group lists on each call. The function must be available as group_anagrams in solution.py. Use only the Python standard library.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

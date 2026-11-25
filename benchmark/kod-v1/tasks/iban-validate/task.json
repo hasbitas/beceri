@@ -1,0 +1,12 @@
+{
+  "task_id": "iban-validate",
+  "kind": "single-file",
+  "specification": "Implement iban_valid(text), returning a bool indicating whether text is a valid IBAN under the following rules. For any input that is not a str, return False. Remove every ordinary ASCII space (U+0020), wherever it occurs, and treat ASCII lowercase letters as their uppercase equivalents. Do not remove or accept any other whitespace or any non-ASCII characters. The resulting string must contain between 15 and 34 characters inclusive, start with exactly two ASCII letters followed by two ASCII decimal digits, and contain only ASCII letters or decimal digits in its remaining positions. The two check digits must be in the range 02 through 98 inclusive. Do not consult country registries or impose country-specific lengths or formats: any two-letter country prefix and any otherwise conforming body are permitted. To check the checksum, move the first four characters to the end, replace every letter A through Z by its decimal value 10 through 35, concatenate those decimal representations with the existing digits, and interpret the result as a base-10 integer. Return True exactly when the structural rules hold and that integer has remainder 1 on division by 97; otherwise return False. The function must not raise an exception for invalid inputs.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "run-length-codec",
+  "kind": "single-file",
+  "specification": "Implement two public functions in solution.py: encode(text) and decode(encoded). Both take a Python str and return a str. Any non-str argument must raise TypeError. The empty string is valid and maps to the empty string in both directions. The uncompressed alphabet is exactly the 52 ASCII letters A through Z and a through z; letter case is significant. encode must reject any character outside that alphabet with ValueError. It must replace each maximal consecutive run of the same letter by its decimal length followed by that letter, including a count of 1 for singleton runs. Counts use ASCII digits, have no leading zeros, and may have multiple digits; for example, encoding aaabbbbbbbbbbbbC yields 3a12b1C. decode accepts only canonical encodings: a concatenation of one or more tokens, each consisting of a positive decimal integer written with ASCII digits and no leading zeros, immediately followed by exactly one ASCII letter. Consecutive tokens must have different letters, compared case-sensitively; thus 1a1a is invalid, but 1a1A is valid. No whitespace, signs, separators, non-ASCII digits or letters, omitted counts, zero counts, leading zeros, or unfinished tokens are allowed. Every malformed encoded string must raise ValueError, rather than being partially decoded or silently normalized. decode expands each valid token into the indicated number of copies of its letter. There is no application-imposed count limit; inputs used for evaluation have counts of at most six digits and decoded lengths of at most 100000 characters. Do not add an output-size restriction within those bounds. No particular exception message is required.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

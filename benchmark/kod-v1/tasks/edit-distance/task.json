@@ -1,0 +1,12 @@
+{
+  "task_id": "edit-distance",
+  "kind": "single-file",
+  "specification": "Implement distance(a, b, limit=None) in solution.py. Both a and b must be Python strings (str subclasses are accepted); otherwise raise TypeError. limit must be None or a nonnegative Python int (int subclasses are accepted, but bool is not); a non-integer limit, including bool, raises TypeError, and a negative integer limit raises ValueError. Validate all arguments even when the strings are equal or empty. Return an integer giving the Levenshtein distance: the minimum number of single-character insertions, deletions, and substitutions needed to transform a into b, each at cost one. Adjacent transposition is not a separate operation. Characters are Python Unicode code points: comparisons are case-sensitive, and no normalization, encoding, whitespace trimming, or other preprocessing is performed. If limit is None, return the exact distance. If limit is supplied, return the exact distance when it is less than or equal to limit, and return exactly limit + 1 when the true distance exceeds limit. In particular, limit zero returns zero for identical strings and one for all unequal strings. Empty strings are valid inputs, and the distance from an empty string is the other string's code-point length, subject to the same limit rule. Results must be symmetric in a and b, and repeated calls must be independent. Do not mutate inputs. The implementation must support strings of at least 1500 code points without a recursion-depth error. No particular time complexity is required.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

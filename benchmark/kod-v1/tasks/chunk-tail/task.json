@@ -1,0 +1,12 @@
+{
+  "task_id": "chunk-tail",
+  "kind": "single-file",
+  "specification": "Implement chunks(items, size): return a list of consecutive list slices including the final short slice. size is an integer; raise ValueError if size <= 0. Do not mutate input.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 2,
+    "hidden": 3
+  }
+}

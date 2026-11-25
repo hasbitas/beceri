@@ -1,0 +1,12 @@
+{
+  "task_id": "sparse-vector",
+  "kind": "single-file",
+  "specification": "Implement two public functions in solution.py: add(a, b) and dot(a, b). Each argument represents a sparse integer vector as a built-in dict mapping coordinate indices to coefficients. Indices must have exactly the built-in int type and be nonnegative; coefficients must have exactly the built-in int type and may be positive, negative, or zero. Booleans and instances of int subclasses are not accepted as indices or coefficients. Arguments must have exactly the built-in dict type. Raise TypeError for an invalid argument type, index type, or coefficient type, and ValueError for a negative integer index. Both arguments must be fully validated even when one is empty, coordinates do not overlap, or the mathematical result is zero. If multiple invalid conditions occur, any applicable specified exception is acceptable. Missing coordinates have coefficient zero. add returns a fresh built-in dict containing the coordinate-wise sum, with every zero coefficient omitted, including zeros explicitly stored in either input and zeros produced by cancellation. Output dictionary iteration order is unspecified. dot returns a built-in int equal to the sum of the products at matching coordinates, with zero for empty vectors or vectors with no common coordinates. Arithmetic is exact with no size limit on valid integer indices or coefficients. Neither function may change either input, whether it returns or raises; passing the same dict as both arguments is supported. Mutating a result returned by add must not affect either input. These are sparse operations: do not enumerate the integer range up to the largest coordinate; work must depend on the numbers of stored entries rather than the magnitudes of coordinate indices. Only solution.py may be changed.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 3,
+    "hidden": 5
+  }
+}

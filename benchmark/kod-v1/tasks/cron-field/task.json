@@ -1,0 +1,12 @@
+{
+  "task_id": "cron-field",
+  "kind": "single-file",
+  "specification": "Implement expand(field, low, high) in solution.py to expand one numeric cron field. Return a fresh Python list of distinct Python integers in ascending order. The bounds are inclusive. low and high must be Python integers (booleans are not accepted); wrong argument types, including a non-string field, raise TypeError. Bounds must satisfy 0 <= low <= high, otherwise raise ValueError. The field is a nonempty comma-separated list of items with no whitespace anywhere. Each item is exactly one of: an asterisk, a number, two numbers separated by a hyphen, an asterisk followed by a slash and a step, or a numeric range followed by a slash and a step. A number or step is a nonempty sequence of ASCII digits 0 through 9; leading zeros are allowed, and there is no digit-count limit. Signs, names, special cron symbols, empty items, and all other syntax are invalid. A step must be strictly positive. A slash is not permitted after a single number. Every written number other than a step must lie within [low, high], even when stepping would not select that endpoint. Range endpoints must be ascending or equal; ranges never wrap. An asterisk denotes the whole interval [low, high], a number denotes itself, and a range includes both endpoints. Without a slash the step is one. With a slash, select the start of the item's interval and then repeatedly add the step while not exceeding its end; for an asterisk the start is low. A step larger than the interval still selects its start. Combine all items by set union, including overlaps and repeated items. Invalid syntax, out-of-bounds endpoints, descending ranges, and zero steps raise ValueError rather than returning partial results. No validation precedence is required when more than one argument is invalid. The function must not modify global interpreter settings.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

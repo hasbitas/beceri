@@ -1,0 +1,12 @@
+{
+  "task_id": "slugify-tr",
+  "kind": "single-file",
+  "specification": "Implement slugify(text), returning a Python str containing an ASCII URL slug. Accept str inputs (including str subclasses); raise TypeError for every other input type, without converting it to text. First normalize the input to Unicode NFC so canonically equivalent spellings have the same result. Transliterate exactly the following Turkish letters, in both cases: ç/Ç to c, ğ/Ğ to g, ı/I to i, i/İ to i, ö/Ö to o, ş/Ş to s, and ü/Ü to u. Convert ASCII uppercase letters A through Z to their lowercase counterparts. No other transliteration, accent stripping, compatibility normalization, or Unicode case conversion is performed. After these transformations, retain only ASCII lowercase letters a through z and ASCII digits 0 through 9. Every maximal run of any other characters becomes a single hyphen, including spaces, punctuation, underscores, existing hyphens, non-ASCII letters, combining marks that remain after NFC, symbols, and control characters. Remove leading and trailing hyphens. If no retained letters or digits remain, return the empty string. Preserve the order and multiplicity of retained letters and digits, including leading zeros. There is no length limit or truncation. The function must be deterministic and must not depend on locale.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "currency-format",
+  "kind": "single-file",
+  "specification": "Implement format_try(cents) in solution.py. The argument is a Python integer representing an exact amount in kuruş, with 100 kuruş equal to one Turkish lira. Return a string with the absolute lira amount grouped from the right into groups of three decimal digits separated by periods, followed by a comma, exactly two kuruş digits, and the suffix ' TL' (one ASCII space followed by uppercase TL). The lira part must have at least one digit and no unnecessary leading zeros. For negative amounts, prepend a single ASCII minus sign to the entire formatted absolute amount, including amounts whose magnitude is less than one lira. Zero has no sign. Do not include a plus sign or any other whitespace. For example, 123456 returns '1.234,56 TL', -5 returns '-0,05 TL', and 0 returns '0,00 TL'. The result must be exact for integers of any magnitude supported by Python, without rounding or loss of precision. The function must not depend on the system locale. Inputs outside Python integers are not part of the contract.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 3,
+    "hidden": 4
+  }
+}

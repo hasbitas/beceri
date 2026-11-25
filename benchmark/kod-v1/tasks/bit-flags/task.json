@@ -1,0 +1,12 @@
+{
+  "task_id": "bit-flags",
+  "kind": "single-file",
+  "specification": "Implement parse_flags(text) and format_flags(mask) in solution.py. The fixed, case-sensitive flag names and bit values, in canonical order, are READ=1, WRITE=2, EXECUTE=4, HIDDEN=8, and ARCHIVE=16. The exact uppercase token NONE denotes an empty selection, and ALL denotes all five flags. parse_flags accepts a str and returns an int mask. A non-str argument raises TypeError. Strip leading and trailing whitespace from the whole input and from each comma-separated token, using Python str.strip semantics. An empty or whitespace-only input returns 0. Otherwise every token must be nonempty: leading, trailing, or repeated commas raise ValueError. A token is either a flag name, NONE, ALL, or one of those tokens prefixed by exactly one !. The ! means remove the named bits; it must immediately precede its operand, with no intervening whitespace. Unknown names, incorrect case, and any other syntax raise ValueError, even when that token would have no effect. NONE is permitted only as the sole token and without !; it returns 0. Begin with mask 0 and process all other tokens strictly from left to right: an unprefixed flag or ALL adds its bits, and a !-prefixed flag or !ALL removes its bits. Repeated tokens are allowed, and later tokens can re-add bits removed earlier. format_flags accepts an int mask, but bool is explicitly not accepted; other non-int values also raise TypeError. A negative mask or one containing any bits outside the five defined bits raises ValueError. Return NONE for mask 0. For every other valid mask, return the selected ordinary flag names in canonical order, separated by commas without spaces. Never use ALL or ! in formatted output, even for the full mask. Both functions must be independent of previous calls and must not print anything.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 3,
+    "hidden": 5
+  }
+}

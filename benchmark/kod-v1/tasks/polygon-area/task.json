@@ -1,0 +1,12 @@
+{
+  "task_id": "polygon-area",
+  "kind": "single-file",
+  "specification": "Implement area(points) in solution.py. It returns the signed polygon area as a built-in float: positive for counterclockwise traversal and negative for clockwise traversal in Cartesian coordinates (x right, y up). The area is one half of the cyclic sum of x_i*y_(i+1) minus y_i*x_(i+1), including the edge from the last vertex to the first. Input points must be a built-in list or tuple; each point must itself be a built-in list or tuple containing exactly two coordinates. Each coordinate must be a built-in int or float, excluding bool and subclasses. Wrong container or coordinate types raise TypeError; a point of the wrong length raises ValueError. Coordinates must be finite and have absolute value at most 1000000000; violations raise ValueError. An optional closing point equal by coordinate value to the first point is permitted and is removed exactly once for validation and computation. After removing that optional closing point there must be at least three vertices, all pairwise distinct by coordinate value; otherwise raise ValueError. A cyclic shoelace sum of exactly zero is degenerate and raises ValueError, including collinear rings and self-crossing rings whose signed contributions cancel. Do not reject other self-crossing rings: return their algebraic signed area, not the area of a geometric union. There is no tolerance for degeneracy: any nonzero exact sum is valid. Treat float coordinates as their exact represented binary values when determining the sum and its sign; return that exact signed area rounded to a float. Do not modify the outer input or any point, on success or on failure. No exception precedence is prescribed when multiple independent input defects occur.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

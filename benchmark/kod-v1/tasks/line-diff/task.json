@@ -1,0 +1,12 @@
+{
+  "task_id": "line-diff",
+  "kind": "single-file",
+  "specification": "Implement diff(old_lines, new_lines) in solution.py. Each argument must be a list or tuple of strings; otherwise raise TypeError, including when an element is not a string. Validate both complete inputs even if one is empty. Do not modify either input. Treat each string as one opaque line: compare strings exactly, without splitting, stripping, normalizing Unicode, or changing newline characters. Return a fresh list of two-element tuples (operation, line). Operation '=' consumes an identical next line from both inputs, '-' consumes only the next old line, and '+' consumes only the next new line. Include unchanged lines as well as changes, preserving their order and exact text. The script must consume both inputs completely and maximize the number of '=' entries, equivalently minimize the total number of '-' and '+' entries using a longest common subsequence. Resolve all ambiguity as follows: starting at the first unconsumed line of each input, if those lines are equal, emit '=' and advance both. Otherwise compare the maximum number of equal-line matches still achievable after deleting the next old line with that achievable after inserting the next new line. Choose deletion if its number is greater than or equal to the insertion number; choose insertion otherwise. Repeat this rule at every position. Once one input is exhausted, emit the remaining old lines as deletions or the remaining new lines as insertions in order. Two empty inputs produce an empty list. Repeated calls must return independent lists. No other public API is required.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

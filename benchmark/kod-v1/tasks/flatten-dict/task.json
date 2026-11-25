@@ -1,0 +1,12 @@
+{
+  "task_id": "flatten-dict",
+  "kind": "single-file",
+  "specification": "Implement flatten(data) and unflatten(data) in solution.py. Both functions accept a Python dict (including dict subclasses); a non-dict argument raises TypeError. Return a new ordinary dict and never modify the input or any dict contained in it. Inputs are finite and acyclic. flatten converts nested dicts to a flat mapping whose keys are paths joined by literal dots. Every key at every dict level must be a string that is nonempty and contains no dot: non-string keys raise TypeError and invalid string keys raise ValueError. Only dict instances are traversed; every other object, including lists, tuples and None, is a leaf and must be preserved by identity, without inspecting its contents. An empty nested dict is also a leaf: retain its path with a fresh empty dict as the value. An empty root dict yields an empty dict. unflatten performs the inverse path expansion. Every input key must be a string (otherwise TypeError), with one or more nonempty dot-separated segments; empty keys and empty segments raise ValueError. Segments are literal and case-sensitive: whitespace and numeric-looking segments are allowed and must not be stripped or converted. Each flat value must be a non-dict leaf or an empty dict; a nonempty dict value raises ValueError. Preserve non-dict leaf objects by identity, and replace empty dict leaves with fresh empty ordinary dicts. Reject with ValueError any pair of flat keys in which one complete path is a proper segment-prefix of the other, regardless of insertion order or the values (including empty dict values). Merely sharing a string prefix, as in 'a' and 'ab.x', is not a conflict. Sibling paths may share intermediate dictionaries. All dictionaries created in either result must be ordinary dicts. Dictionary iteration order is not part of the contract. For an input violating multiple rules, any applicable specified exception is acceptable.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

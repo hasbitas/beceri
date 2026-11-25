@@ -1,0 +1,14 @@
+{
+  "task_id": "b-billing-periods",
+  "kind": "multi-file",
+  "specification": "Implement calendar-month arithmetic and billing periods in the package billing. billing/months.py defines last_day, add_months and whole_months_between; billing/periods.py defines billing_periods, period_of, next_due and prorate; billing/__init__.py re-exports all seven names. General rules: every date argument must be exactly a datetime.date (datetime.datetime and all other types raise TypeError) and every integer argument must be an int that is not a bool (otherwise TypeError). Type errors are reported before any ValueError, for all arguments of a call. last_day(year, month) returns the datetime.date of the last day of that month; ValueError unless 1 <= year <= 9999 and 1 <= month <= 12. add_months(day, n) returns the date n calendar months after day (n may be zero or negative). The day number is kept, except that when the resulting month has no such day the last day of the resulting month is used. ValueError when the resulting year is outside 1..9999. whole_months_between(start, end) returns the largest integer n such that add_months(start, n) <= end. ValueError when start is later than end. billing_periods(anchor, count, step=1) returns a new list of count tuples (period_start, period_end) of datetime.date. Boundary k (k = 0, 1, 2, ...) is the date k * step calendar months after anchor, where the day number of anchor is capped only by the length of that boundary's month. Period i (counting from 0) starts at boundary i and ends, exclusive, at boundary i + 1. step must be at least 1 and count at least 0 (a count of 0 gives an empty list), otherwise ValueError; a ValueError is also raised when any boundary of the requested periods would be out of range. period_of(anchor, step, day) returns (index, (start, end)) for the period that contains day, where the periods are those described above for the given anchor and step, start is inclusive and end is exclusive. ValueError when day is earlier than anchor or step is below 1. next_due(anchor, step, today) returns the earliest period start that is strictly later than today; when today is earlier than anchor this is anchor itself. step below 1 is a ValueError. prorate(anchor, step, day) returns a fractions.Fraction equal to (days from day up to the end of its period) / (days in that period), i.e. the share of the period that is left when day counts as the first remaining day; it uses the same period as period_of and the same errors.",
+  "allowed_paths": [
+    "billing/__init__.py",
+    "billing/months.py",
+    "billing/periods.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 11
+  }
+}

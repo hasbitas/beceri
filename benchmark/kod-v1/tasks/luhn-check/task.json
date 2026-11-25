@@ -1,0 +1,12 @@
+{
+  "task_id": "luhn-check",
+  "kind": "single-file",
+  "specification": "Implement luhn_valid(text) and luhn_check_digit(text) in solution.py. Both functions accept a Python str; any non-string argument raises TypeError. Only ASCII digits 0 through 9, ASCII space (U+0020), and hyphen-minus (U+002D) are permitted. Spaces and hyphens are ignored wherever they occur, including repeated, leading, and trailing separators. Any other character raises ValueError in either function, even if the input otherwise has no digits. Preserve leading zero digits; there is no maximum input length. For luhn_valid, the remaining digits are a complete number including its check digit. Starting from the rightmost digit, leave that digit unchanged, double every second digit moving left, and subtract nine from each doubled value greater than nine. Return a bool indicating whether the sum is divisible by ten. A single digit is allowed (so zero is valid); if there are no remaining digits, return False. For luhn_check_digit, the remaining digits are a payload without a check digit. Return the unique single-character ASCII digit string which, when appended to that payload, makes the complete number satisfy the same Luhn rule. An empty or separator-only payload raises ValueError. These functions must not impose issuer, prefix, or number-length restrictions. Neither function should print output.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

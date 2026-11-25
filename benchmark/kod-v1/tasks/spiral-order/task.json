@@ -1,0 +1,12 @@
+{
+  "task_id": "spiral-order",
+  "kind": "single-file",
+  "specification": "Implement spiral(matrix), returning a new Python list containing the cells of a rectangular matrix in clockwise spiral order. Start at the top-left cell, move right across the top edge, then down the right edge, left across the bottom edge, and up the left edge, repeatedly continuing inward until every cell has been visited exactly once. Single remaining rows or columns are traversed in the direction reached by this process, without repeating any cell. The outer matrix must be a list or tuple, and every row must be a list or tuple; mixtures of these container types are accepted. All rows must have the same length. An empty outer container, or any rectangular matrix whose rows are all empty, returns an empty list. Cells can be arbitrary Python objects, including duplicate values, None, and container objects; return the original cell objects without copying or transforming them. Do not mutate the outer container, rows, or cell objects. Each call must return a fresh list, including for empty inputs. Raise TypeError if the outer container or any row has an unsupported type. Check the types of all rows before checking row lengths; if all row types are valid but their lengths differ, raise ValueError. Invalid inputs must also remain unchanged. No other input forms need to be supported.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

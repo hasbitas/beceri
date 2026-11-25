@@ -1,0 +1,12 @@
+{
+  "task_id": "path-normalize",
+  "kind": "single-file",
+  "specification": "Implement normalize(path) in solution.py. It accepts a Python str and returns a str representing a purely lexical normalization of a POSIX path; non-str inputs must raise TypeError. Do not consult the filesystem, resolve symbolic links, expand variables or tildes, or interpret backslashes as separators. Only the slash character separates components. Any other characters, including whitespace and NUL, are ordinary component characters. A component is special only if it is exactly '.' or '..'. The path is absolute if and only if it begins with a slash. Collapse every run of slashes to a single separator, including a leading run of exactly two slashes. Discard empty components and '.' components. Process components from left to right: '..' cancels the preceding uncancelled ordinary component if one exists; otherwise retain it for a relative path, but discard it for an absolute path so traversal never goes above root. A retained '..' must never be cancelled by a later '..'. Join the remaining components with single slashes and preserve the absolute/relative distinction. If an absolute path has no remaining components, its result is '/'; if a relative path has no remaining components, its base result is '.'. An empty input returns '.'. Preserve an explicit trailing slash: if a nonempty input ends in '/', append one slash to the normalized base result unless that result is already '/'. This includes the base results '.' and '..', so './' stays './', 'a/../' becomes './', and '../' stays '../'. A final '.' or '..' without an actual final slash does not itself request a trailing slash. The operation must be deterministic, must not change the working directory or other process state, and must not access files.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

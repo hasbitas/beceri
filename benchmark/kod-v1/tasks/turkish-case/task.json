@@ -1,0 +1,12 @@
+{
+  "task_id": "turkish-case",
+  "kind": "single-file",
+  "specification": "Provide two functions, tr_upper(text) and tr_lower(text), in solution.py. Each accepts a Python str (including str subclasses) and returns a str. Any non-str argument must raise TypeError; do not coerce it to text. Both functions accept arbitrary Unicode text, including the empty string, whitespace, embedded NUL characters, combining marks, and lone surrogate code points. For tr_upper, first simultaneously substitute each original U+0069 LATIN SMALL LETTER I with U+0130 LATIN CAPITAL LETTER I WITH DOT ABOVE and each original U+0131 LATIN SMALL LETTER DOTLESS I with U+0049 LATIN CAPITAL LETTER I, leaving all other code points unchanged; the result is then Python's standard whole-string uppercase conversion. For tr_lower, first simultaneously substitute each original U+0049 LATIN CAPITAL LETTER I with U+0131 LATIN SMALL LETTER DOTLESS I and each original U+0130 LATIN CAPITAL LETTER I WITH DOT ABOVE with U+0069 LATIN SMALL LETTER I, leaving all other code points unchanged; the result is then Python's standard whole-string lowercase conversion. Standard conversion means the behavior of str.upper and str.lower in the running Python version, including Unicode expansions and context-sensitive mappings. Substitutions apply only to original input characters, not to characters produced by case conversion. Do not normalize Unicode, remove or add combining marks beyond what these stated operations do, strip whitespace, or interpret decomposed sequences as precomposed characters. Preserve all other behavior of Python's case conversion. Neither function may change the input or depend on locale or previous calls.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 3,
+    "hidden": 5
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "free-slots",
+  "kind": "single-file",
+  "specification": "Implement free_slots(busy, day_start, day_end, min_length) in solution.py. All times are integer coordinates on one common timeline, not clock strings. day_start and day_end are integers with day_start <= day_end, and min_length is a positive integer. busy is a finite iterable (possibly a one-shot iterator) of two-element pairs of integers (start, end), in arbitrary order. These input guarantees may be assumed; no validation or particular exception behavior is required outside them. Interpret the working day and all intervals as half-open: a start is included and an end is excluded. Ignore any busy pair whose end is less than or equal to its start. Intersect each remaining busy interval with [day_start, day_end), discarding empty intersections. Busy time is the union of these intersections: overlapping, nested, duplicate, and touching intervals must not create free time between them. Return a list of (start, end) tuples, in increasing start order, containing exactly the maximal free intervals within the working day whose length end - start is at least min_length. The threshold is inclusive. Do not split or trim free intervals to the threshold, and do not join free intervals across busy time even if a busy interval is short. A zero-length working day has no free intervals. With no effective busy time, the entire nonempty day is a single candidate free interval. Do not modify the caller's input collection or the pairs it contains; consuming an iterator is permitted. The function must not retain state between calls.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

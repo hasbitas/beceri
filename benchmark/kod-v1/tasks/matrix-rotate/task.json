@@ -1,0 +1,12 @@
+{
+  "task_id": "matrix-rotate",
+  "kind": "single-file",
+  "specification": "Implement rotate(matrix, k) in solution.py. The matrix must be a list or tuple of rows, each of which must itself be a list or tuple; all rows must have the same length. Cell values may be arbitrary Python objects and must not be inspected or copied. The rotation count k must be a Python int (including int subclasses), but bool is not accepted. Reject an invalid count with TypeError before validating the matrix. Reject an invalid outer container or any invalid row container with TypeError; validate all row container types before checking equal row lengths. Reject unequal row lengths with ValueError. Validation applies even when k is zero or the matrix has no cells. Positive k means k clockwise quarter-turns; negative k means counterclockwise quarter-turns. Counts of any magnitude are accepted and equivalent counts modulo four must yield the same result without work proportional to the magnitude of k. For example, rotating [[1, 2, 3], [4, 5, 6]] once clockwise yields [[4, 1], [5, 2], [6, 3]]. Return a list of lists, including for tuple inputs. A matrix with no rows, or with only empty rows, returns [] for every valid k. Otherwise a quarter-turn interchanges the height and width, and zero or a multiple of four preserves the arrangement. Never mutate the input, whether returning or raising. Every returned outer list and row list must be newly allocated on each call, distinct from every input container and from every other output row, even when no rotation is needed or input rows alias each other. Preserve cell object identity (a shallow structural copy, not a deep copy).",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

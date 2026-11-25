@@ -1,0 +1,12 @@
+{
+  "task_id": "stable-unique",
+  "kind": "single-file",
+  "specification": "Implement unique(items): return a new list preserving first occurrence order. Inputs contain hashable items. Do not mutate the input.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 2,
+    "hidden": 3
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "query-string-parse",
+  "kind": "single-file",
+  "specification": "Implement parse_query(qs), which accepts a Python str and returns a new dict mapping decoded string keys to nonempty lists of decoded string values. Raise TypeError for any non-str input. Remove exactly one leading question mark, if present. Split the remaining input on literal ampersands only and ignore empty fields. Split each nonempty field at its first literal equals sign; a field with no equals sign has an empty value. Empty keys and empty values are valid. Decode each key and value independently, after splitting: literal plus signs become spaces, percent escapes representing hexadecimal bytes are decoded case-insensitively, and escaped byte sequences are interpreted as UTF-8 with replacement characters for invalid UTF-8, as in urllib.parse.unquote_plus with encoding='utf-8' and errors='replace'. Malformed percent escapes remain literal. Decoding happens exactly once: a plus sign produced by a percent escape remains a plus, and decoded ampersands or equals signs are data, not delimiters. Preserve literal Unicode characters, whitespace, semicolons, and hash characters; do not trim input, strip fragments, or treat semicolons as delimiters. Accumulate repeated decoded keys in encounter order, including when differently spelled raw keys decode identically. Dict iteration order must be the order of each decoded key's first appearance. An empty query, an optional leading question mark alone, or a query consisting only of empty fields yields an empty dict. Calls must not share mutable result state.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "install-order",
+  "kind": "single-file",
+  "specification": "Implement install_order(packages), returning a list of package names in installation order. The input must be a dict (subclasses are accepted) mapping package names to their direct dependencies. Each package name and each dependency name must be a nonempty str; whitespace is significant and names must not be stripped or normalized. Each dependency collection must be a list or tuple (subclasses are accepted). Reject an invalid input container, dependency container, or non-string name with TypeError; reject an empty string name with ValueError. Validate the entire input before checking for missing dependencies or cycles. If several validation defects exist, which one is reported is unspecified; validation error messages are unspecified. Duplicate dependency names have the same effect as a single occurrence. Do not mutate the input dictionary or its dependency collections. All comparisons and sorting use Python's case-sensitive string ordering. A dependency is missing if its name is not a key in packages. If any dependencies are missing, raise ValueError whose message is exactly 'missing dependencies: ' followed by all distinct (package, missing dependency) pairs sorted lexicographically, formatted as 'package -> dependency' and joined with '; '. Missing dependencies take precedence over cycles, including cycles in unrelated components. Otherwise, repeatedly choose the lexicographically smallest not-yet-installed package all of whose dependencies have already been installed, and append it to the result. Thus the choice must be reconsidered after each installation, rather than taking all currently available packages as a batch. If no package can be chosen while packages remain, raise ValueError whose message is exactly 'cycle blocks: ' followed by all remaining package names, sorted and joined with ', '. This list includes packages indirectly blocked by a cycle, not only packages on cycles, and excludes any packages already installed by the selection rule. A self-dependency is a cycle. For an empty dictionary return an empty list. The function must not retain state between calls. Only the standard library may be used.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 6,
+    "hidden": 9
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "percentile-linear",
+  "kind": "single-file",
+  "specification": "Implement percentile(values, p) in solution.py. values must be a Python list or tuple (including subclasses), containing at least one observation. Each observation and p must have exactly the built-in type int or float; booleans, numeric subclasses, and all other types are rejected with TypeError. Convert accepted numbers to float before doing numerical work. A number whose conversion overflows or produces infinity or NaN is rejected with ValueError. The converted p must lie in the inclusive interval from 0 to 100, otherwise raise ValueError. Validate in this order: the outer values container type (TypeError if invalid), p's type and numerical validity, nonemptiness (ValueError if empty), and then every observation in original order. All observations must be validated even if p is an endpoint or there is only one observation. Do not modify values, including when validation fails. Sort the converted observations in ascending order, retaining duplicates. With n observations, the zero-based fractional rank is (n minus 1) times (p divided by 100). If this rank is an integer, return that ranked observation. Otherwise return the weighted arithmetic mean of the observations immediately below and above that rank, with the upper observation weighted by the fractional part of the rank and the lower observation weighted by one minus that fraction. Thus p=0 returns the minimum, p=100 returns the maximum, and a singleton returns its sole observation for any valid p. Always return a built-in float. Ordinary floating-point rounding is acceptable; interpolation between large finite values must not produce infinity or NaN merely because subtracting the two observations would overflow.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

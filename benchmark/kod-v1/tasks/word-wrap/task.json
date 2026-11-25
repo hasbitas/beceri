@@ -1,0 +1,12 @@
+{
+  "task_id": "word-wrap",
+  "kind": "single-file",
+  "specification": "Implement wrap(text, width), returning a string. text is a Python str and width is an integer (not a bool). If width is zero or negative, raise ValueError, including when text is empty or whitespace-only. Otherwise, words are the maximal nonempty sequences of non-whitespace characters, using Python str.split() whitespace semantics; all input whitespace, including line breaks, separates words and does not force an output line break. Return the empty string when there are no words. Preserve all non-whitespace characters exactly, with lengths measured in Python string characters rather than bytes or display columns. Pack words greedily in their original order: append a word to the current line with exactly one ASCII space if the resulting line length is at most width. If it would not fit, finish the current line and start the word on a new line. A word longer than width must start on a fresh line: finish any current line first, then split the word from left to right into consecutive width-character chunks and an optional shorter final chunk. Each full-width chunk is a completed line; a shorter final chunk becomes the current line and can share that line with subsequent words under the same greedy rule. Never insert spaces between chunks of the same word. Join completed lines and any remaining current line with a single newline character, with no leading or trailing newline, no empty lines, and no leading or trailing spaces on any line. The function must not print anything. Behavior for argument types other than those stated is unspecified.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

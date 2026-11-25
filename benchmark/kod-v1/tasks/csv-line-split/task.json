@@ -1,0 +1,12 @@
+{
+  "task_id": "csv-line-split",
+  "kind": "single-file",
+  "specification": "Implement split_csv_line(line) returning a list of decoded string fields in their original order. The argument must be a Python str; raise TypeError for any other type. The input is one CSV record without a record terminator: any carriage return or line feed anywhere in the string, including within quotes, is invalid and must raise ValueError. Fields are separated by commas outside quoted fields. Empty input represents one empty field; leading, trailing, and consecutive commas each preserve the corresponding empty fields. A field is either unquoted or quoted. An unquoted field may contain any characters other than comma, double quote, carriage return, or line feed. A quoted field must begin with a double quote at the very start of the field and end with a closing double quote; inside it, commas are literal content and a pair of consecutive double quotes decodes to one literal double quote. Every double quote in the quoted content must be escaped in this way. After the closing quote only a comma or the end of the input is permitted. Reject unterminated quoted fields, double quotes in unquoted fields, or any characters after a closing quote other than the separator with ValueError; never return a partial result for malformed input. Preserve all other characters exactly, including spaces, tabs, backslashes, and Unicode; do not trim whitespace or interpret backslashes as escapes. In particular whitespace before an opening quote or after a closing quote does not relax the quote rules. Empty quoted fields decode to empty strings. No other parsing features or escape conventions are supported.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

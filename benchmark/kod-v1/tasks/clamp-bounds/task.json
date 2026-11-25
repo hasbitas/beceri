@@ -1,0 +1,12 @@
+{
+  "task_id": "clamp-bounds",
+  "kind": "single-file",
+  "specification": "Implement clamp(value, low, high): return the value limited to inclusive bounds. Raise ValueError if low > high.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 2,
+    "hidden": 3
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "grade-letters",
+  "kind": "single-file",
+  "specification": "Implement letters(scores, thresholds) in solution.py. Return a new list of letter-grade strings, one per score in the original order. scores must be an exact built-in list or tuple (not a subclass). Each score must be an exact built-in int or float, excluding bool and subclasses, finite, and in the closed interval from 0 to 100 before rounding. thresholds must be an exact built-in dict with exactly the four string keys A, B, C, and D. Each threshold must be an exact built-in int (excluding bool and subclasses) from 0 to 100 inclusive, and their values must satisfy A > B > C > D. These are the inclusive minimum rounded scores for those grades. Round each score to its nearest integer, resolving an exact halfway case toward the larger integer (half-up). A float denotes its exact stored binary value for rounding, without an epsilon or decimal-string reinterpretation. Assign the highest qualifying grade in the order A, B, C, D; assign F if no threshold is met. Thresholds are not rounded, and dictionary insertion order must have no effect. Validate thresholds completely before inspecting scores, including when scores is empty or has an invalid container type. During threshold validation, check the container type first, then the exact key set, then all value types, then all value ranges and the strict ordering. A wrong container type or numeric element type raises TypeError; an incorrect threshold key set, invalid numeric range, nonfinite score, or invalid threshold ordering raises ValueError. After valid thresholds, check the scores container type, then validate score elements in index order, checking each element's type before its value. An invalid later score must still raise rather than returning partial output. Empty scores with valid thresholds returns a fresh empty list. Do not mutate either argument, on success or failure. Exception messages are not specified.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

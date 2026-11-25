@@ -1,0 +1,12 @@
+{
+  "task_id": "topo-sort",
+  "kind": "single-file",
+  "specification": "Implement topo_sort(graph) in solution.py. The input must be a built-in dict whose keys are built-in str objects and whose values are built-in lists, tuples, or sets containing only built-in str objects. Subclasses of these types are not accepted. Raise TypeError for any violation of this input contract, even if the graph also contains a cycle. Strings may be empty or contain arbitrary Unicode characters. Each dictionary entry represents directed edges from its key to each string in its value. The vertex set is the union of dictionary keys and all mentioned neighbors; a neighbor missing as a key has no outgoing edges. Repeated neighbors represent a single edge, not multiple edges. Return a fresh list containing every vertex exactly once, with each source appearing before every destination of its edges. Among all valid topological orders, return the lexicographically smallest list using Python's ordinary case-sensitive string ordering, without normalization or locale rules. Equivalently, at each step choose the smallest vertex among all currently eligible vertices, including ones that have just become eligible. The result must not depend on dictionary insertion order or neighbor iteration order. An empty dictionary returns an empty list. If any directed cycle exists, including a self-loop or a cycle in a disconnected component, raise ValueError with the exact message 'graph contains a cycle'; never return a partial order. Do not mutate the dictionary or any neighbor container, on success or on failure. Use only the Python standard library.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

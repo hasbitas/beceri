@@ -1,0 +1,12 @@
+{
+  "task_id": "template-render",
+  "kind": "single-file",
+  "specification": "Implement render(template, values), returning a string. The template is a string and values is a mapping from string keys to arbitrary objects. Scan the template from left to right. An unescaped {{ begins a placeholder, whose name must immediately follow and must end at the next }}. Names consist of an ASCII letter or underscore followed by zero or more ASCII letters, digits, or underscores; whitespace, empty names, Unicode letters, and all other characters in names are invalid. Replace each placeholder by str(values[name]). Look up names case-sensitively, permit repeated names, and ignore unused mapping entries. A missing name must raise KeyError with that name as its sole argument. Outside placeholders, a backslash escapes exactly one following backslash, opening brace, or closing brace, emitting that character literally. Escaped characters are never reinterpreted as template syntax. Any other backslash escape, including a trailing backslash, is invalid. Every unescaped brace must belong to a valid placeholder delimiter: isolated braces, stray closing delimiters, unclosed placeholders, and nested placeholders are invalid. Escapes are not processed inside placeholder names, so a backslash there is invalid. Raise ValueError on invalid template syntax. Process each encountered placeholder or escape before moving on: validate the entire current placeholder name before looking it up, and do not prevalidate later template text before performing earlier lookups. Replacement strings are copied verbatim without interpreting any braces or backslashes they contain. All other characters, including newlines and non-ASCII text outside placeholders, are preserved exactly. Empty templates are allowed. Neither input is modified. No particular exception message is required for ValueError.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

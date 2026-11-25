@@ -1,0 +1,12 @@
+{
+  "task_id": "base-convert",
+  "kind": "single-file",
+  "specification": "Implement convert(number_text, from_base, to_base) in solution.py. It converts an integer numeral from from_base to to_base and returns a str. Each base must be an int (bool is not accepted) in the inclusive range 2 through 36; a non-integer base raises TypeError and an out-of-range integer base raises ValueError. number_text must be a str, otherwise raise TypeError. Valid text consists of an optional single leading ASCII '+' or '-', followed by one or more ASCII digits from 0-9, a-z, or A-Z. Letters have values 10 through 35, case-insensitively; every digit's value must be strictly less than from_base. Reject all other spellings with ValueError, including empty text, a sign without digits, whitespace anywhere, underscores, non-ASCII characters, and embedded or repeated signs. There is no prefix syntax: every character after the optional sign is an ordinary digit, so '0b10' is invalid in base 2 but valid in base 16. Leading zeros are permitted. The output uses lowercase letters, no leading '+' or leading zeros, and a leading '-' only for a strictly negative value. Every spelling of zero, including negative zero, produces '0'. Conversion must be exact for arbitrarily large integer magnitudes and must not impose a fixed digit-count limit or change interpreter-wide conversion-limit settings. Apply these same validation and canonicalization rules even when the two bases are equal. If multiple arguments are invalid, any one of the applicable exception classes above is acceptable; validation order is not specified.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 3,
+    "hidden": 5
+  }
+}

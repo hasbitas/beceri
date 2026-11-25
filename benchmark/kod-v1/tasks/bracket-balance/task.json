@@ -1,0 +1,12 @@
+{
+  "task_id": "bracket-balance",
+  "kind": "single-file",
+  "specification": "Implement balanced(text), accepting a Python str and returning a bool. Raise TypeError for any non-str input. Scan characters from left to right. Outside quoted strings, opening parentheses, square brackets, and braces must be closed by their respective closing characters in proper last-opened, first-closed order. An unmatched or mismatched closing bracket, or any opening bracket left unclosed at the end, makes the result False. A single quote or double quote outside a string starts a string delimited by that same quote character. Within a string, all brackets and the other kind of quote are ordinary content. A backslash within a string escapes exactly the next character, whatever that character is: the escaped character cannot end the string or start another escape. Thus consecutive backslashes are consumed in pairs. A string must terminate with an unescaped matching quote; an unterminated string, including one ending in an escape with no following character, makes the result False. Outside strings, backslashes are ordinary characters and do not escape quotes or brackets. All remaining characters, including whitespace, newlines, Unicode characters, and hash signs, have no special meaning. There are no comments, raw-string prefixes, or triple-quote syntax; quotes are processed individually by the rules above, and strings may contain literal newlines. The empty string is balanced. The function must handle deeply nested input without relying on Python recursion depth.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 5
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "text-justify",
+  "kind": "single-file",
+  "specification": "Implement justify(words, width) in solution.py. It returns a list of strings representing fully justified text. The input words is a list of nonempty strings containing no whitespace; width is a positive integer, and every word has length at most width. Inputs always satisfy these conditions; no behavior for invalid inputs is required. Length means Python string length (Unicode code points), not display columns or encoded bytes. Do not modify the input list. Preserve every word exactly and in its original order, without splitting words. Form lines greedily: each line contains the largest consecutive group of remaining words that fits within width when neighboring words are separated by one ASCII space. For each line except the last, if it contains at least two words, distribute enough ASCII spaces between its words to make its total length exactly width. Gap sizes must differ by at most one, and any larger gaps must precede all smaller gaps (extra spaces go to the leftmost gaps). A nonfinal line containing only one word is padded on the right with ASCII spaces to width. The last line is always left-aligned, even when several words fit: join its words with exactly one ASCII space and pad on the right to width. Every returned line must have exactly width characters; there are no leading spaces, newline characters, or extra blank lines. Empty input returns an empty list. A single word or a single line still follows the last-line rule. Repeated calls must be independent.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "version-range",
+  "kind": "single-file",
+  "specification": "Implement satisfies(version, spec), returning a bool indicating whether a version satisfies every constraint in a comma-separated specification. Both arguments must be strings; if either is not a string, raise TypeError. A version consists of one or more nonempty dot-separated components, each containing only ASCII digits 0 through 9. There is no fixed component count. Leading zeros are allowed and components are interpreted as nonnegative decimal integers. Ignore surrounding whitespace (space, tab, carriage return, newline, vertical tab, and form feed) on the version argument, on the entire specification, on each comma-separated constraint, and between an operator and its operand. No whitespace is permitted inside a numeric version or inside an operator. Compare versions numerically component by component, treating missing components as zero; thus 1, 1.0, and 01.0.0 are equal, and 1.10 is greater than 1.2. Each constraint is an operator followed by a version, with operators ==, !=, <, <=, >, or >=. A version with no operator is an equality constraint. A single equals sign is not an operator. All constraints are combined with logical AND. An empty or whitespace-only specification accepts every valid version. Otherwise every comma-separated field must be a nonempty valid constraint. Invalid versions or malformed specifications must raise ValueError, including missing operands, empty fields, unknown operators, signs, non-ASCII digits, suffixes, and internal whitespace. Validate the version argument and the entire specification even when a preceding constraint is false; malformed later constraints must not be silently ignored. The function must not change its arguments or keep state between calls. Only solution.py may be modified.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

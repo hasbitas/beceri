@@ -1,0 +1,12 @@
+{
+  "task_id": "payment-match",
+  "kind": "single-file",
+  "specification": "Implement match(bank, ledger, days) in solution.py using only the Python standard library. bank and ledger must each be a built-in list of built-in dictionaries. Each dictionary must contain amount and date; extra keys are ignored. amount must be a built-in int (not bool), representing signed integer minor currency units, with no magnitude limit. date must be a built-in str in exactly ASCII YYYY-MM-DD format and denote a valid Gregorian calendar date in years 0001 through 9999. days must be a built-in int (not bool) greater than or equal to zero, with no upper bound. Wrong container, record, amount, date-string, or days types raise TypeError; missing required keys, malformed or impossible dates, and negative days raise ValueError. Validate all records in both inputs even if either list is empty or no match is possible; no particular error precedence is required when multiple defects exist. Do not mutate either input or its records, including on errors.\n\nPair transactions one-to-one by this deterministic chronological greedy procedure, not by a global optimization objective. Visit bank records in ascending date order, breaking equal-date ties by their original bank-list index. For each bank record, eligible ledger records are those not already paired, with exactly the same signed amount and an absolute calendar-day difference at most days (inclusive). If any are eligible, choose the one with the smallest absolute day difference; break ties by earlier ledger date, then by smaller original ledger-list index. Commit that pair permanently; otherwise leave that bank record unmatched. Dates may lie on either side of the bank date, and input lists need not be sorted. Equal-valued duplicate records remain distinct records identified by their original positions.\n\nReturn a fresh built-in dictionary with exactly three keys: pairs, unmatched_bank, and unmatched_ledger. pairs is a fresh list of two-element tuples (bank_index, ledger_index), sorted by original bank index, not processing order. unmatched_bank and unmatched_ledger are fresh lists of unpaired original indices in ascending order. All indices are zero-based built-in ints. Empty inputs are valid and produce the corresponding empty lists. Each call must return new containers independent of earlier results.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

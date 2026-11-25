@@ -1,0 +1,12 @@
+{
+  "task_id": "histogram-bins",
+  "kind": "single-file",
+  "specification": "Implement histogram(values, bins, low, high). Return a fresh list of exactly bins Python integer counts in ascending bin order. bins must be a Python int (not bool) greater than zero. low and high must each be a Python int or float (not bool), finite, and satisfy low < high. values may be any iterable, including a one-pass iterator; each element must likewise be a finite Python int or float, excluding bool. Do not modify input containers. Integers of arbitrary magnitude are supported. Divide the interval from low to high into bins equal-width intervals: each bin includes its lower edge and excludes its upper edge, except that the last bin includes high. Values strictly below low or strictly above high are ignored, not clamped or counted separately. Repeated values count separately. Empty input returns all zero counts. Boundary membership is defined by exact mathematical arithmetic on the supplied numeric values: a float denotes its exact stored binary value, and intermediate floating-point rounding must not change which bin receives a value. Raise TypeError for invalid argument or element types, including a non-iterable values argument; raise ValueError for a nonpositive bins, a nonfinite numeric bound or element, or bounds that do not satisfy low < high. Invalid elements must be rejected even if they would otherwise be outside the interval. Validate bins first, then low, then high, then the ordering of the bounds, before iterating values; validate elements in iteration order. No partial result is returned on error.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

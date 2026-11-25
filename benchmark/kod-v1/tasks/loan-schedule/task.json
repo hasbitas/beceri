@@ -1,0 +1,12 @@
+{
+  "task_id": "loan-schedule",
+  "kind": "single-file",
+  "specification": "Implement schedule(principal, annual_rate, months) in solution.py using only the Python standard library. It returns a list of exactly months monthly amortization rows, each a dict with exactly the keys month, payment, interest, principal, balance. month is an int numbered from 1; the other four values are decimal.Decimal amounts with exactly two fractional places. annual_rate is a nominal annual percentage (12 means 12 percent). Input principal and annual_rate may be int, float, Decimal, or str, but not bool; interpret them by Decimal(str(value)), ignoring leading/trailing whitespace in strings. Reject unsupported types, nonnumeric strings, nonfinite values, principal outside [0.01, 1000000000000], principal not an exact multiple of 0.01, and annual_rate other than zero or a value in [0.000001, 100], by raising ValueError. months must be a non-bool int in [1, 600], otherwise raise ValueError. Do not mutate the caller's decimal context, and make the result independent of its precision, rounding mode, and traps. All decimal arithmetic for the computation must take place in a fresh decimal context with precision 50 and ROUND_HALF_UP rounding (the standard default traps); monetary rounding means quantizing to 0.01 with ROUND_HALF_UP. Set r = annual_rate / 1200. Determine a fixed regular payment by rounding principal / months if r is zero, otherwise by rounding principal * r / (1 - (1 + r) ** (-months)). Start with the given principal as the outstanding balance. For each month compute interest by rounding the opening balance times r. Except in the last month, payment is the smaller of the fixed regular payment and opening balance plus that rounded interest, so an early payoff must never produce a negative balance. In the last month payment is the entire opening balance plus that month's rounded interest, absorbing all accumulated rounding differences. The row's principal is payment minus interest, and balance is opening balance minus that principal, both in cents. If the loan is paid off early, still return all months, with zero-valued amounts in subsequent rows. Return a zero final balance and ensure the sum of the row principal amounts equals the input principal. Invalid arguments must raise ValueError even when the caller has changed the decimal context.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

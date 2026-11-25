@@ -1,0 +1,12 @@
+{
+  "task_id": "json-pointer",
+  "kind": "single-file",
+  "specification": "Implement resolve(document, pointer) in solution.py to look up a value using the plain string form of RFC 6901 JSON Pointer. The document is an already-decoded JSON value: dictionaries with string keys, lists, strings, numbers, booleans, or None; it need not be validated. The pointer must be a Python str, otherwise raise TypeError. The empty pointer returns the document itself. Every nonempty pointer must start with '/', otherwise raise ValueError. Split the substring after that initial slash on literal '/' characters, preserving empty tokens, including a trailing empty token. Within each token, '~0' represents a literal '~' and '~1' represents a literal '/'. Decoding is single-pass: characters produced by decoding are not decoded again. Every '~' in the original token must be followed immediately by '0' or '1'; any other escape or dangling '~' raises ValueError. Validate the syntax of the entire pointer before attempting any document lookup, so a malformed later token raises ValueError even if an earlier token cannot be resolved. Tokens are not percent-decoded, whitespace-trimmed, Unicode-normalized, or interpreted as URI fragments; a leading '#' is not supported. Traverse using decoded tokens in order. For a dictionary, a token is an exact, case-sensitive string key; empty strings, numeric-looking strings, and '-' are ordinary dictionary keys. For a list, the token must be '0' or an ASCII digit from '1' through '9' followed by zero or more ASCII digits; signs, leading zeros, whitespace, Unicode digits, the empty token, and '-' are invalid list indexes. An index must be smaller than the list length. There is no maximum token length: a syntactically valid but excessively large index is simply out of range. Raise KeyError for a missing dictionary key, an invalid or out-of-range list index, or an attempt to traverse any scalar (including None). Exception messages and arguments are unspecified. Return the actual referenced value without copying it, including falsy values. Do not mutate the document on success or failure. Only the resolve function is required; use only the standard library.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

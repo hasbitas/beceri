@@ -1,0 +1,14 @@
+{
+  "task_id": "c-scc-cycles",
+  "kind": "multi-file",
+  "specification": "Implement a small directed-graph package in the `digraph` package, spread over three files. `digraph/model.py` defines class `DiGraph`; `digraph/scc.py` defines the analysis functions `components(graph)`, `cyclic_components(graph)`, `is_acyclic(graph)` and `condensation_edges(graph)`; `digraph/__init__.py` re-exports `DiGraph` and these four functions. Nodes are non-empty Python strings. `DiGraph()` starts empty. `add_node(node)` and `add_edge(source, target)` raise TypeError if a node is not a str and ValueError if it is the empty string; the type check is done before the emptiness check, for source before target, and a call that raises must leave the graph completely unchanged. `add_node` registers a node (idempotent). `add_edge` registers both endpoints as nodes and records the directed edge; repeating an edge has no effect, and self-loops (source equal to target) are legal and recorded as edges. `nodes()` returns a new sorted list of all nodes. `successors(node)` returns a new sorted list of the targets of edges leaving `node` and raises KeyError for an unknown node. `has_edge(source, target)` returns a bool and is False (never an error) when either node is unknown. `edge_count()` returns the number of distinct edges, a self-loop counting as one. `components(graph)` returns the strongly connected components as a list of lists: every node belongs to exactly one component, nodes inside a component are sorted, and the components are ordered by their smallest member. `cyclic_components(graph)` returns, in the same order, only those components that contain a directed cycle, that is components with at least two nodes plus single-node components whose node has a self-loop. `is_acyclic(graph)` is True exactly when there is no such component. `condensation_edges(graph)` returns a sorted list of distinct pairs `(i, j)` with `i != j`, where `i` and `j` are positions in the list returned by `components(graph)` and the graph has at least one edge from a node of component `i` to a node of component `j`. All functions must work for graphs with thousands of nodes on a single path (no recursion-depth failures) and must not modify the graph.",
+  "allowed_paths": [
+    "digraph/__init__.py",
+    "digraph/model.py",
+    "digraph/scc.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 8
+  }
+}

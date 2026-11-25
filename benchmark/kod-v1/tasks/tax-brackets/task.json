@@ -1,0 +1,12 @@
+{
+  "task_id": "tax-brackets",
+  "kind": "single-file",
+  "specification": "Implement tax(income, brackets), returning the total progressive tax as a built-in Python int measured in kuruş (100 kuruş = 1 lira). Income is already an integer number of kuruş, not a lira amount. It must be an exact built-in int, excluding bool and int subclasses, and must be nonnegative. Integers have no magnitude limit. brackets must be an exact built-in list or tuple, must be nonempty, and must contain only exact built-in lists or tuples of length two. Each entry contains an upper income limit and a rate in basis points: 10000 basis points means 100 percent. Every rate must be an exact built-in int, excluding bool and subclasses, in the inclusive range 0 through 10000. Rates need not increase. Every entry except the last must have a positive exact built-in int upper limit, and these finite upper limits must be strictly increasing in the supplied order. The last entry must have upper limit None, denoting an unlimited final bracket; None is forbidden in any earlier entry. There is no sorting or implicit final bracket. For each entry, its lower limit is the preceding entry's finite upper limit, or zero for the first entry. Only income above that lower limit and up to that entry's upper limit is taxed at that entry's rate; income equal to a finite limit contributes nothing to the following bracket. For an unlimited entry, all remaining income is eligible. Compute each bracket's exact tax as its taxable number of kuruş multiplied by its rate and divided by 10000. Round each bracket's tax separately to the nearest integer kuruş, with an exact half rounded upward, and then sum those rounded amounts. Do not round the combined unrounded tax instead. Zero income returns zero for any valid schedule. Validate the entire schedule even if income is zero or an earlier bracket already covers all income. Wrong argument or component types raise TypeError; invalid values, an empty schedule, an entry of the wrong length, misplaced None, or a last upper limit other than None raise ValueError. A last upper limit other than None is a value error regardless of its type. No precedence is required when multiple independent violations occur. Do not modify income or any part of brackets, on success or failure. No other public API is required.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

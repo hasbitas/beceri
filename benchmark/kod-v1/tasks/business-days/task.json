@@ -1,0 +1,12 @@
+{
+  "task_id": "business-days",
+  "kind": "single-file",
+  "specification": "Implement business_days(start, end, holidays) in solution.py. Return an integer counting Monday-through-Friday dates in the half-open interval [start, end): start is included and end is excluded. Dates use the proleptic Gregorian calendar supported by datetime.date (years 0001 through 9999). Each date argument and each holiday entry must be a string of exactly ten ASCII characters in YYYY-MM-DD form representing a real calendar date; otherwise raise ValueError, including for non-string date values. If start is later than end, raise ValueError. holidays must be an iterable of date strings and may be a one-shot iterator; a non-iterable holidays argument raises TypeError. Consume and validate every holiday entry, even when the interval is empty or the entry is outside it. Duplicate holidays count only once. Holidays on Saturdays or Sundays do not reduce the count, and holidays outside the interval have no effect. Equal endpoints produce zero after validation. Do not mutate supplied collections. No particular error message or validation order is required when multiple inputs are invalid.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

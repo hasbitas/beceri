@@ -1,0 +1,12 @@
+{
+  "task_id": "rate-limit-window",
+  "kind": "single-file",
+  "specification": "Implement allowed(timestamps, limit, window), returning a new list of booleans, one per request in input order, indicating whether each request is admitted by a sliding-window rate limiter. timestamps is a finite list of nonnegative integer timestamps in nondecreasing order; equal timestamps represent distinct requests processed in their list order. limit is a nonnegative integer and window is a positive integer. For a request at time t, count only previously admitted requests whose timestamps s satisfy t - window < s <= t. Admit the request if and only if this count is strictly less than limit. An admitted request participates in subsequent decisions; a rejected request never participates. Thus a request exactly window time units old has expired, while earlier requests at the same timestamp have not expired. A zero limit rejects every request, and an empty input returns an empty list. Do not modify timestamps. Calls are independent: no history is retained between calls. Validate the entire input even if the limit is zero: limit and window must be integers but not booleans, with limit >= 0 and window > 0; timestamps must be a list and each element must be an integer but not a boolean, nonnegative, and no smaller than its predecessor. Raise ValueError for any violation of these requirements, including incorrect types. Validation must not mutate the input. Integer timestamps may be arbitrarily large and must be handled exactly. The implementation must run in O(n) time and use at most O(n) additional space for n timestamps. Only standard-library imports are permitted.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

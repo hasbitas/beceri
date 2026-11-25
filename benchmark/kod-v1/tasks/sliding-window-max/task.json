@@ -1,0 +1,12 @@
+{
+  "task_id": "sliding-window-max",
+  "kind": "single-file",
+  "specification": "Implement window_max(values, k) in solution.py. The values argument must be a list or tuple (including subclasses), containing only Python integers (including int subclasses but excluding bool). The k argument must be a Python integer (including int subclasses but excluding bool), and must be strictly positive. Validate in this order: first reject an invalid outer values type with TypeError; then reject an invalid k type with TypeError; then reject k <= 0 with ValueError; then check all elements of values and raise TypeError if any element is invalid. Element validation is required even when no complete window exists. For valid inputs, return a fresh built-in list containing the maximum of each contiguous block of exactly k elements, ordered by increasing starting position. There are len(values) - k + 1 results when k <= len(values); when k > len(values), return an empty list. In particular, an empty values list or tuple with any positive k returns an empty list. Negative integers, repeated values, and arbitrarily large integers are supported without conversion to floating point. Do not modify values, on either success or failure; the result must not alias an input list, even for k = 1 or empty inputs. For valid input of length n, the implementation must run in O(n) time and use at most O(min(n, k)) auxiliary space, excluding the returned list. Use only the Python standard library.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 6,
+    "hidden": 8
+  }
+}

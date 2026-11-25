@@ -1,0 +1,12 @@
+{
+  "task_id": "stock-ledger",
+  "kind": "single-file",
+  "specification": "Implement apply(moves), which returns a stock-balance dictionary. moves must be a built-in list or tuple. Each element must be a built-in dictionary with exactly the three keys 'item', 'direction', and 'quantity'. item must be a nonempty built-in string; names are case-sensitive and preserved literally, with no whitespace trimming or normalization. direction must be a built-in string equal to 'in' or 'out'. quantity must be a built-in integer greater than or equal to zero; booleans and integer subclasses are not accepted. Wrong container, element, or field types raise TypeError. Missing or extra keys, empty item names, unknown directions, and negative quantities raise ValueError. Validate all records in list order before applying any movements, so a malformed later record takes precedence over an earlier stock shortage. Within a record, check its key set, then item, then direction, then quantity; for each field check its type before its value. All items start at zero. Apply movements strictly in input order: 'in' adds quantity and 'out' subtracts it for that item. If any movement would make that item's balance negative, raise ValueError, even if a later movement would replenish it. Balances of different items cannot offset one another. On success return a new built-in dictionary mapping every encountered item to its final integer balance, including items whose balance is zero and items encountered only in zero-quantity movements. Dictionary iteration order must be the order of first appearance of each item. Empty input returns a fresh empty dictionary. Do not mutate the input sequence or any movement dictionary, on success or on failure. Separate calls are independent and start from zero. Exception messages are not specified.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 6
+  }
+}

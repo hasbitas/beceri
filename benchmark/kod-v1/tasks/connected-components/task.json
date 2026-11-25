@@ -1,0 +1,12 @@
+{
+  "task_id": "connected-components",
+  "kind": "single-file",
+  "specification": "Implement components(n, edges) for an undirected graph whose vertices are exactly the integers 0 through n - 1. Return a list of connected components, each represented by a list of vertex numbers in strictly increasing order. Every vertex must occur exactly once, including isolated vertices. Order the components by decreasing number of vertices; among components of equal size, order by increasing smallest vertex. For n equal to zero and no edges, return an empty list. Edges are undirected: reversing any pair or reordering the edges must not change the result. Duplicate edges and self-loops are valid and do not change connectivity. Connectivity includes paths of any length. The argument n must have exactly the built-in int type (not bool or an int subclass) and be nonnegative; raise TypeError for an invalid type and ValueError for a negative value. The edges argument may be any finite iterable, including a single-pass iterator. Each yielded edge must be a list or tuple (subclasses are permitted) of length exactly two; raise TypeError for any other edge type and ValueError for a wrong length. Both endpoints must have exactly the built-in int type; otherwise raise TypeError. Each endpoint must be in the range 0 through n - 1; otherwise raise ValueError. A non-iterable edges argument must raise TypeError. Validate n before accessing edges, and validate all yielded edges before returning, even when an edge could not affect connectivity. Within each edge, check its type, then length, then both endpoint types, then endpoint ranges. Process edges in encounter order and stop at the first invalid edge. Do not modify any supplied lists or tuples. The result and all component lists must be newly allocated on each call, and modifying the result must not modify the inputs or results of other calls. The implementation must support chains of at least 5000 vertices without exceeding Python's default recursion limit. No particular exception message is required.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

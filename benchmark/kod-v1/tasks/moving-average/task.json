@@ -1,0 +1,12 @@
+{
+  "task_id": "moving-average",
+  "kind": "single-file",
+  "specification": "Implement moving_average(values, window, partial=False). Return a new list of floating-point simple moving averages in input order. values may be any finite iterable, including a one-pass iterator; do not mutate a supplied collection. Each element must have exactly the built-in type int or float (bool is not accepted), and must convert to a finite float. Reject an element of any other type with TypeError, and reject a float NaN or infinity with ValueError. Perform calculations on the float-converted values. window must have exactly the built-in type int (not bool), otherwise raise TypeError; it must be greater than zero, otherwise raise ValueError. partial must have exactly the built-in type bool, otherwise raise TypeError. Validate window first, then partial, before consuming values. A non-iterable values argument raises TypeError. Consume and validate every element even when no complete window can be produced. With partial=False, emit an average only for each complete contiguous window of exactly window elements, advancing by one element each time; omit leading incomplete windows. With partial=True, emit one average for every input element: average that element and up to window-1 immediately preceding elements, dividing by the actual number of elements present, not by the requested window size. An empty input returns an empty list in either mode. If window exceeds the input length, the non-partial result is empty and the partial result consists of successive prefix averages. window=1 returns the float-converted input in either mode. Ordinary floating-point rounding is acceptable; inputs used for evaluating numerical results have finite intermediate sums. Do not round the returned averages explicitly.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}

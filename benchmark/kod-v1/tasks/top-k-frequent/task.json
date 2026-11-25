@@ -1,0 +1,12 @@
+{
+  "task_id": "top-k-frequent",
+  "kind": "single-file",
+  "specification": "Implement top_k(items, k). The items argument is any finite iterable of strings, including a one-shot iterator; a string passed as items is an iterable of its individual characters. Each element must be a Python str (subclasses are accepted). Count distinct strings by their exact, case-sensitive Python equality: no normalization or case folding is used when counting. Return a fresh list containing the k most frequent distinct strings, or all distinct strings if k exceeds their number. Order the result by decreasing frequency. For equal frequencies, order by the string's Unicode casefold() result in ascending Python lexicographic order; if those results are equal, order by the original string in ascending Python lexicographic order. Thus casing and Unicode spelling remain distinct items even when their casefolded forms coincide. Empty strings and arbitrary Unicode strings are valid. The argument k must be a Python int (subclasses are accepted) but not bool; raise TypeError otherwise. Raise ValueError if k is negative. Validate k before obtaining an iterator from items. With a valid k, raise TypeError if items is not iterable or any element is not a str. Validate the entire iterable even when k is zero, so an invalid element anywhere still raises TypeError; do not return a partial result on invalid input. An empty iterable or k equal to zero yields an empty list after validation. Do not mutate input containers. Iterators may be consumed, but must not be restarted or traversed more than once. The result contains strings only, not frequency pairs, and each call returns a new list.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

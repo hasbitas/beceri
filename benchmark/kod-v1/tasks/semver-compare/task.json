@@ -1,0 +1,12 @@
+{
+  "task_id": "semver-compare",
+  "kind": "single-file",
+  "specification": "Implement compare(a, b) in solution.py. Both arguments must be strings representing valid Semantic Versioning 2.0.0 versions. Return the integer -1 if a has lower precedence, 0 if they have equal precedence, and 1 if a has higher precedence. Validate both arguments even when precedence could be decided without examining the whole version. If either argument is not a string, raise TypeError; this takes priority over invalid syntax in the other argument. If both are strings but either has invalid syntax, raise ValueError. A version consists of exactly three dot-separated core components MAJOR.MINOR.PATCH, optionally followed by '-' and a dot-separated pre-release list, then optionally by '+' and a dot-separated build metadata list. Core components contain only ASCII decimal digits, are nonempty, and have no leading zeros except for the single digit '0'. Each pre-release or build identifier is nonempty and consists only of ASCII letters, ASCII decimal digits, or hyphens. A pre-release identifier consisting entirely of digits must not have leading zeros except for '0'; numeric build identifiers may have leading zeros. Empty optional lists, empty identifiers, whitespace, a leading 'v', Unicode letters or digits, and any other characters are invalid. There are no fixed length or numeric magnitude limits. Compare the three core components numerically in order. If they are equal, a version without pre-release identifiers has higher precedence than one with them. Otherwise compare pre-release identifiers left to right: two entirely numeric identifiers compare numerically; a numeric identifier is lower than a nonnumeric identifier; two nonnumeric identifiers compare lexicographically by ASCII character values, case-sensitively. When all shared pre-release identifiers are equal, the shorter list has lower precedence; identical lists have equal precedence. Build metadata must be syntactically validated but never affects precedence. Do not modify the arguments or maintain state between calls.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

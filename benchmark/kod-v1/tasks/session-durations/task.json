@@ -1,0 +1,12 @@
+{
+  "task_id": "session-durations",
+  "kind": "single-file",
+  "specification": "Implement durations(events) in solution.py. The argument must be an exact built-in list or tuple of event records; each record must itself be an exact built-in list or tuple of length three, containing (user, action, timestamp) in that order. The user must be an exact built-in str and must not be empty; names are case-sensitive and are not stripped or normalized. The action must be an exact built-in str equal to 'login' or 'logout'. The timestamp must be an exact built-in int (not bool), with no magnitude limit; negative timestamps are valid. Raise TypeError for a wrong container type or field type, and ValueError for a record of the wrong length, an empty user, or an unsupported string action. Validate all records, including events that would otherwise be ignored; no precedence is prescribed when multiple errors coexist. Do not modify the input, including on failure. Events may arrive out of chronological order. Process events by increasing timestamp, preserving their original input order when timestamps tie. Track each user independently, initially logged out. A login while logged out opens a session. A login while already logged in is ignored and leaves the original start unchanged. A logout while logged in closes the session and adds timestamp minus its start to that user's total; a logout while logged out is ignored. Any session still open after all events contributes nothing, not even a partial duration. Zero-length completed sessions are valid. Return a fresh built-in dict mapping every user appearing in the input to their integer total, including users whose total is zero. Insert keys in Python's ascending string sort order, irrespective of event order. Empty input returns an empty dict. Use only the Python standard library.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 5,
+    "hidden": 7
+  }
+}

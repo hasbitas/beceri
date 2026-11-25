@@ -1,0 +1,12 @@
+{
+  "task_id": "deep-merge",
+  "kind": "single-file",
+  "specification": "Implement deep_merge(base, override) in solution.py. Both arguments are ordinary Python dictionaries with string keys. Their values may be dictionaries, lists, strings, integers, finite floats, booleans, or None, recursively nested in any combination. Inputs are acyclic; mutable objects may occur more than once or be shared between the two inputs. Return a new dictionary containing the union of keys. At a key present in both dictionaries, recursively merge the values if and only if both values are dictionaries; otherwise the override value replaces the base value completely, including when it is an empty dictionary, an empty list, False, zero, an empty string, or None. Lists are always replaced as whole values, never concatenated, merged by index, or inspected for mergeable dictionaries. Keys present in just one input retain that input's value. Apply these rules at every recursively merged dictionary level. Preserve dictionary insertion order: keys from the base appear in their original order, including overwritten keys, followed by keys unique to the override in their original order. Dictionaries copied without merging retain their own insertion order. Neither input may be mutated during the call. All dictionaries and lists reachable from the returned result must be independent of all dictionaries and lists reachable from either input, including containers nested inside lists or inside replaced values. Mutating any input container after the call must not change the result, and mutating any result container must not change either input. No particular sharing relationship among containers within the result is required. The function must also work when both arguments are the same object. Behavior for inputs outside this domain is unspecified.",
+  "allowed_paths": [
+    "solution.py"
+  ],
+  "expected_tests": {
+    "visible": 4,
+    "hidden": 7
+  }
+}
